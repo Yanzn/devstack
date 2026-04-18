@@ -52,12 +52,6 @@ Install as a Claude Code plugin:
 /plugin install devstack@devstack
 ```
 
-Or point Claude Code at your local clone:
-
-```bash
-claude --plugin-dir /Users/max/Projects/prompt/devstack
-```
-
 Then in any session:
 
 ```bash

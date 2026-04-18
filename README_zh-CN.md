@@ -52,12 +52,6 @@ devstack 不是一个加载器或绑定器。它是一个**全新、独立的项
 /plugin install devstack@devstack
 ```
 
-或者直接指向本地克隆：
-
-```bash
-claude --plugin-dir /Users/max/Projects/prompt/devstack
-```
-
 在任何会话里：
 
 ```bash
