@@ -12,7 +12,10 @@
   "plugins": [
     {
       "name": "devstack",
-      "source": ".",
+      "source": {
+        "source": "github",
+        "repo": "Yanzn/devstack"
+      },
       "description": "Opinionated development stack for AI coding agents — process discipline from brainstorm to ship, fused with production-grade engineering standards. Extensible across web, backend, mobile.",
       "version": "0.1.0",
       "author": {
