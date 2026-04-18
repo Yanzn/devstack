@@ -1,0 +1,56 @@
+{
+  "name": "spring",
+  "description": "Spring Boot backend profile — Gradle 多模块、MQTT/IoT、Docker Compose 部署。",
+  "stack": {
+    "language": "java",
+    "framework": "spring-boot",
+    "build": "gradle",
+    "test": "junit5",
+    "runtime": "docker-compose",
+    "reference_project": "photovoltaic-upgrade"
+  },
+  "standards": {
+    "enabled": [
+      "api-and-interface-design",
+      "security-and-hardening",
+      "performance-optimization",
+      "code-review-and-quality",
+      "code-simplification",
+      "git-workflow-and-versioning",
+      "ci-cd-and-automation",
+      "documentation-and-adrs",
+      "shipping-and-launch",
+      "source-driven-development",
+      "deprecation-and-migration"
+    ],
+    "disabled": [
+      "frontend-ui-engineering",
+      "browser-testing-with-devtools"
+    ]
+  },
+  "core": [
+    "context-engineering",
+    "test-driven-development",
+    "incremental-implementation",
+    "systematic-debugging",
+    "verification-before-completion"
+  ],
+  "flow": [
+    "brainstorming",
+    "writing-plans",
+    "executing-plans",
+    "dispatching-parallel-agents",
+    "requesting-code-review",
+    "receiving-code-review",
+    "finishing-a-development-branch"
+  ],
+  "focus_areas": [
+    "多模块依赖边界和循环引用检测",
+    "Spring Security + JWT / OAuth2",
+    "JPA/MyBatis 查询优化与事务边界",
+    "MQTT broker 消息可靠性、QoS、幂等消费",
+    "Flyway/Liquibase 数据库迁移安全",
+    "Actuator + Micrometer 指标暴露",
+    "JUnit5 + Testcontainers 集成测试"
+  ]
+}

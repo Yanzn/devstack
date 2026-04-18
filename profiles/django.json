@@ -1,0 +1,54 @@
+{
+  "name": "django",
+  "description": "Django/DRF backend profile — REST API, pytest, Docker, nginx deploy.",
+  "stack": {
+    "language": "python",
+    "framework": "django",
+    "test": "pytest",
+    "package": "pip/requirements.txt",
+    "runtime": "docker",
+    "reference_project": "geyoto"
+  },
+  "standards": {
+    "enabled": [
+      "api-and-interface-design",
+      "security-and-hardening",
+      "performance-optimization",
+      "code-review-and-quality",
+      "code-simplification",
+      "git-workflow-and-versioning",
+      "ci-cd-and-automation",
+      "documentation-and-adrs",
+      "shipping-and-launch",
+      "source-driven-development",
+      "deprecation-and-migration"
+    ],
+    "disabled": [
+      "frontend-ui-engineering",
+      "browser-testing-with-devtools"
+    ]
+  },
+  "core": [
+    "context-engineering",
+    "test-driven-development",
+    "incremental-implementation",
+    "systematic-debugging",
+    "verification-before-completion"
+  ],
+  "flow": [
+    "brainstorming",
+    "writing-plans",
+    "executing-plans",
+    "requesting-code-review",
+    "receiving-code-review",
+    "finishing-a-development-branch"
+  ],
+  "focus_areas": [
+    "Django ORM N+1 和查询优化",
+    "DRF 序列化器、权限、节流",
+    "Django migrations 安全回滚",
+    "CSRF / SQL 注入 / XSS 防护",
+    "pytest + pytest-django 覆盖率 ≥80%",
+    "Celery / 异步任务幂等性"
+  ]
+}

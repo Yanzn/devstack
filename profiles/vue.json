@@ -1,0 +1,55 @@
+{
+  "name": "vue",
+  "description": "Vue 前端 profile — Vue CLI/Webpack、多环境 .env、pnpm。",
+  "stack": {
+    "language": "javascript",
+    "framework": "vue",
+    "build": "vue-cli",
+    "package": "pnpm",
+    "test": "jest",
+    "reference_project": "energy-web"
+  },
+  "standards": {
+    "enabled": [
+      "frontend-ui-engineering",
+      "browser-testing-with-devtools",
+      "performance-optimization",
+      "api-and-interface-design",
+      "security-and-hardening",
+      "code-review-and-quality",
+      "code-simplification",
+      "git-workflow-and-versioning",
+      "ci-cd-and-automation",
+      "documentation-and-adrs",
+      "shipping-and-launch",
+      "source-driven-development"
+    ],
+    "disabled": [
+      "deprecation-and-migration"
+    ]
+  },
+  "core": [
+    "context-engineering",
+    "test-driven-development",
+    "incremental-implementation",
+    "systematic-debugging",
+    "verification-before-completion"
+  ],
+  "flow": [
+    "brainstorming",
+    "writing-plans",
+    "executing-plans",
+    "requesting-code-review",
+    "receiving-code-review",
+    "finishing-a-development-branch"
+  ],
+  "focus_areas": [
+    "组件拆分、props/emits 契约、避免 prop drilling",
+    "路由权限、动态 permission.js 守卫",
+    "Vuex/Pinia 状态边界，避免全局滥用",
+    "打包体积分析、路由懒加载、首屏指标",
+    "XSS（v-html）、CSRF token、环境变量泄漏",
+    "多环境 .env 配置与构建矩阵",
+    "浏览器 DevTools 性能/网络回归测试"
+  ]
+}
