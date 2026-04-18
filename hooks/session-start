@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# SessionStart hook for devstack plugin.
+# Injects the full using-devstack SKILL.md into session context so the agent
+# sees the three-layer model and 1% rule before its first response.
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+# Read using-devstack skill content
+using_devstack_content=$(cat "${PLUGIN_ROOT}/skills/using-devstack/SKILL.md" 2>&1 \
+  || echo "Error reading using-devstack skill")
+
+# Escape a string for JSON embedding using bash parameter substitution.
+# Each ${s//old/new} is a single C-level pass — orders of magnitude faster
+# than character-by-character loops.
+escape_for_json() {
+    local s="$1"
+    s="${s//\\/\\\\}"
+    s="${s//\"/\\\"}"
+    s="${s//$'\n'/\\n}"
+    s="${s//$'\r'/\\r}"
+    s="${s//$'\t'/\\t}"
+    printf '%s' "$s"
+}
+
+using_devstack_escaped=$(escape_for_json "$using_devstack_content")
+
+session_context="<EXTREMELY_IMPORTANT>\nYou have devstack.\n\ndevstack is an opinionated development stack for AI coding agents, organized as three stacked layers: flow/ (workflow spine), core/ (cross-cutting disciplines), standards/ (domain knowledge).\n\n**Below is the full content of your 'devstack:using-devstack' skill — your introduction to using devstack skills. For all other skills, use the 'Skill' tool:**\n\n${using_devstack_escaped}\n</EXTREMELY_IMPORTANT>"
+
+# Emit context injection JSON in the format the current platform expects.
+# Cursor:      additional_context (snake_case, top-level)
+# Claude Code: hookSpecificOutput.additionalContext (nested)
+# Copilot CLI / generic SDK: additionalContext (camelCase, top-level)
+#
+# Claude Code reads BOTH additional_context and hookSpecificOutput without
+# deduplication, so we emit only the field the current platform consumes.
+#
+# Uses printf instead of heredoc to avoid bash 5.3+ heredoc hang.
+if [ -n "${CURSOR_PLUGIN_ROOT:-}" ]; then
+  printf '{\n  "additional_context": "%s"\n}\n' "$session_context"
+elif [ -n "${CLAUDE_PLUGIN_ROOT:-}" ] && [ -z "${COPILOT_CLI:-}" ]; then
+  printf '{\n  "hookSpecificOutput": {\n    "hookEventName": "SessionStart",\n    "additionalContext": "%s"\n  }\n}\n' "$session_context"
+else
+  printf '{\n  "additionalContext": "%s"\n}\n' "$session_context"
+fi
+
+exit 0

@@ -1,0 +1,25 @@
+{
+  "name": "devstack",
+  "description": "Opinionated development stack for AI coding agents — process discipline from brainstorm to ship, fused with production-grade engineering standards. Extensible across web, backend, mobile.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Max (Zhangning.Yan)",
+    "email": "yan.zncn@gmail.com"
+  },
+  "homepage": "https://github.com/Yanzn/devstack",
+  "repository": "https://github.com/Yanzn/devstack",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "workflow",
+    "tdd",
+    "code-standards",
+    "api-design",
+    "security",
+    "frontend",
+    "django",
+    "spring",
+    "ios",
+    "android"
+  ]
+}
