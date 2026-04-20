@@ -4,15 +4,18 @@ description: "Use when you have an approved spec and need to turn it into a task
 ---
 
 <!--
-origin: [SP+AS]
+origin: [SP+AS+KS]
 sources:
   - superpowers:writing-plans @ 5.0.7
   - agent-skills:planning-and-task-breakdown @ 1.0.0
+  - karpathy-skills:CLAUDE.md @ 2025-10 (Principle 4: Goal-Driven Execution)
 notes: |
   Kept SP's bite-sized 2-5-minute tasks, exact file paths, complete code per step,
   no-placeholder rule, subagent-driven-development handoff, and plan self-review.
   Grafted AS's per-task acceptance criteria, explicit dependency ordering, task sizing
   guidelines (XS/S/M/L), vertical-slicing pattern, and checkpoint structure between phases.
+  Grafted karpathy-skills "instruction → verifiable goal" transformation pattern as
+  "Framing Tasks as Verifiable Goals" so weak instructions get rewritten before execution.
 -->
 
 # Writing Plans
@@ -174,6 +177,22 @@ git commit -m "feat: add <specific behavior>"
 - Build succeeds: `<build command>`
 - Manual check: `<specific thing to verify, if applicable>`
 ````
+
+## Framing Tasks as Verifiable Goals
+
+Before writing a task, transform instruction-style phrasing into goal-style phrasing. A verifiable goal lets the executor loop independently until a check passes. An instruction without a check requires constant supervision.
+
+| Instruction (weak) | Verifiable goal (strong) |
+|---|---|
+| "Add input validation" | "Write tests for invalid inputs (empty, too long, wrong type) — then make them pass" |
+| "Fix the login bug" | "Write a test reproducing the bug — then make it pass without breaking existing login tests" |
+| "Refactor the auth middleware" | "Rewrite `authMiddleware` so all existing auth tests still pass; cyclomatic complexity of the main handler drops from 12 to ≤6" |
+| "Improve performance" | "Benchmark `renderList` with 1000 items; p50 render time drops below 16ms" |
+| "Make it work on mobile" | "Safari iOS 17 and Chrome Android pass the e2e smoke tests at viewport 375×812" |
+
+The check is what turns the task into something the agent can close on its own. Weak goals ("make it work", "clean it up", "make it better") force the agent to guess when it's done — and it will guess wrong.
+
+**Rule:** every `Acceptance criteria` bullet must be something a machine, a test, or a clear human check can decide. If it can't, rewrite it.
 
 ## Task Sizing
 

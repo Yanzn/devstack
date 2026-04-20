@@ -8,13 +8,15 @@ devstack is a remix of two upstream projects. Every skill's provenance is tracke
 |---|---|---|---|
 | [Superpowers](https://github.com/obra/superpowers) | Jesse Vincent | MIT | Workflow spine, subagent orchestration, voice of flow/core skills |
 | [agent-skills](https://github.com/addyosmani/agent-skills) | Addy Osmani | MIT | Engineering-standards content, code-quality criteria, checklists |
+| [andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills) | Forrest Chang (distilling [@karpathy](https://x.com/karpathy/status/2015883857489522876)) | MIT | Four behavioral principles: think-before-coding push-back, surgical-change orphan rule, instruction→goal framing |
 
 ## Per-Skill Provenance
 
 Legend:
 - **[SP]** — sourced from Superpowers, lightly adapted
 - **[AS]** — sourced from agent-skills, lightly adapted
-- **[SP+AS]** — merged from both, substantial rewrite
+- **[KS]** — sourced from karpathy-skills, lightly adapted
+- **[SP+AS]**, **[AS+KS]**, **[SP+AS+KS]** — merged from multiple upstreams
 - **[NEW]** — original to devstack
 
 ### using-devstack (meta)
@@ -28,7 +30,7 @@ Legend:
 | Skill | Source |
 |---|---|
 | `brainstorming` | [SP+AS] — Superpowers brainstorming + agent-skills idea-refine + spec-driven-development |
-| `writing-plans` | [SP+AS] — Superpowers writing-plans + agent-skills planning-and-task-breakdown |
+| `writing-plans` | [SP+AS+KS] — Superpowers writing-plans + agent-skills planning-and-task-breakdown + karpathy-skills Principle 4 (instruction→goal framing) |
 | `executing-plans` | [SP] |
 | `subagent-driven-development` | [SP] |
 | `dispatching-parallel-agents` | [SP] |
@@ -44,8 +46,8 @@ Legend:
 | `test-driven-development` | [SP+AS] — SP Iron Law/RED-GREEN-REFACTOR + AS test pyramid, DAMP, Beyoncé Rule, test sizes |
 | `systematic-debugging` | [SP+AS] — SP 4-phase root-cause + AS 5-step triage (reproduce, localize, reduce, fix, guard) |
 | `verification-before-completion` | [SP] |
-| `incremental-implementation` | [AS] |
-| `context-engineering` | [AS] |
+| `incremental-implementation` | [AS+KS] — agent-skills incremental-implementation + karpathy-skills Principle 3 (surgical-change orphan rule) |
+| `context-engineering` | [AS+KS] — agent-skills context-engineering + karpathy-skills Principle 1 (push-back dissent pattern) |
 
 ### standards/ layer
 

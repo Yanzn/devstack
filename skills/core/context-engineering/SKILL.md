@@ -4,10 +4,14 @@ description: Optimizes agent context setup. Use when starting a new session, whe
 ---
 
 <!--
-origin: [AS]
+origin: [AS+KS]
 sources:
   - agent-skills:context-engineering @ 1.0.0
-notes: Direct port from agent-skills. Namespace references updated to devstack:*.
+  - karpathy-skills:CLAUDE.md @ 2025-10 (Principle 1: Think Before Coding)
+notes: |
+  Base port from agent-skills. Namespace references updated to devstack:*.
+  Grafted karpathy-skills "push back when warranted" dissent pattern into
+  Confusion Management as "When You Disagree — Push Back".
 -->
 
 # Context Engineering
@@ -242,6 +246,27 @@ C) Append a number suffix like "Task (2)" (most user-friendly)
 
 → Which behavior do you want?
 ```
+
+### When You Disagree — Push Back
+
+If the user's approach looks wrong, more complex than necessary, or based on a mistaken premise, **say so before executing**. Silent compliance with a bad plan is not helpful — it is deferential failure.
+
+```
+PUSH-BACK TEMPLATE:
+- What I was asked: [restate the request]
+- Concern: [what seems off — wrong premise, hidden cost, simpler alternative]
+- Alternative: [the approach I'd take instead, and why]
+- → Proceed as asked, or switch?
+```
+
+Use when:
+
+- A simpler solution exists that meets the same goal with less code or risk
+- The request embeds a factual mistake (non-existent API, wrong version, broken invariant)
+- The requested change would conflict with an existing constraint the user may have forgotten
+- The task framing guarantees a bad outcome (e.g., "make the test pass" when the test is wrong)
+
+Push-back is not obstruction. State the concern once, offer the alternative, then defer to the user's call.
 
 ### The Inline Planning Pattern
 

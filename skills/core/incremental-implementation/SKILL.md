@@ -4,10 +4,14 @@ description: Delivers changes incrementally. Use when implementing any feature o
 ---
 
 <!--
-origin: [AS]
+origin: [AS+KS]
 sources:
   - agent-skills:incremental-implementation @ 1.0.0
-notes: Direct port from agent-skills. Namespace references updated to devstack:*.
+  - karpathy-skills:CLAUDE.md @ 2025-10 (Principle 3: Surgical Changes)
+notes: |
+  Base port from agent-skills. Namespace references updated to devstack:*.
+  Grafted karpathy-skills orphan-cleanup rule into Rule 0.5 Scope Discipline:
+  clean up orphans YOUR changes created; leave pre-existing dead code alone.
 -->
 
 # Incremental Implementation
@@ -138,6 +142,17 @@ NOTICED BUT NOT TOUCHING:
 - The auth middleware could use better error messages (separate task)
 → Want me to create tasks for these?
 ```
+
+**Orphans from your own changes are in scope. Pre-existing dead code is not.**
+
+| Situation | Action |
+|---|---|
+| Your edit makes an import, variable, or helper unused | **Remove it** — you created the orphan, clean it up |
+| Your edit renames a function; old name now has no callers | **Remove the old function** |
+| Dead code already existed before your edit | **Leave it** — note it, don't delete unless asked |
+| Unclear whether an item is dead | **Leave it, ask** — removing something load-bearing is worse than leaving cruft |
+
+The rule: every changed line should trace to the user's request, and nothing that was working before your change should silently disappear because of it.
 
 ### Rule 1: One Thing at a Time
 

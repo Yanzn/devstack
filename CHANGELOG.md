@@ -5,6 +5,17 @@ All notable changes to devstack will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added — karpathy-skills graft
+
+Adopted three of the four principles from [andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills) (a distillation of Karpathy's observations on LLM coding pitfalls). Principle 2 (Simplicity First) was skipped — already fully covered by `core/incremental-implementation` Rule 0 and `standards/code-simplification`.
+
+- `core/context-engineering` — grafted Principle 1 (Think Before Coding): added `When You Disagree — Push Back` pattern in Confusion Management. Provides a template for surfacing dissent when the user's approach looks wrong, before executing.
+- `core/incremental-implementation` — grafted Principle 3 (Surgical Changes): sharpened Rule 0.5 Scope Discipline with an orphan-cleanup table. Orphans *your* changes created are in scope; pre-existing dead code is not.
+- `flow/writing-plans` — grafted Principle 4 (Goal-Driven Execution): added `Framing Tasks as Verifiable Goals` section. Every acceptance-criteria bullet must be machine- or human-decidable; weak goals ("make it work") get rewritten before execution.
+- `CREDITS.md` — added karpathy-skills as third upstream, new `[KS]` legend entry, updated per-skill provenance for the three grafted skills.
+
 ## [0.1.0] — 2026-04-18
 
 Complete skill set across all four batches.
