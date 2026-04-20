@@ -76,7 +76,7 @@ Adding a new technology stack (iOS, Android, Rust, Go, …) means adding **`stan
 
 ## Status
 
-**v0.1.0 — Scaffold and entry only.** The full skill set is being built in 4 batches. See [CHANGELOG.md](CHANGELOG.md).
+**v0.2.0 — Full skill set delivered** (29 `SKILL.md`, 6 slash commands, 3 agents, 4 reference checklists) plus the karpathy-skills behavioral graft. See [CHANGELOG.md](CHANGELOG.md).
 
 ---
 

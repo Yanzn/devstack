@@ -134,7 +134,7 @@ devstack 的核心判断：**两者正交，应该叠加使用**。
 
 ## 当前状态
 
-**v0.1.0 — 29 个 SKILL.md，6 个 slash 命令，3 个 agent，4 个参考清单。** 完整 skill 集合分 4 批交付完毕。详见 [CHANGELOG.md](CHANGELOG.md)。
+**v0.2.0 — 29 个 SKILL.md，6 个 slash 命令，3 个 agent，4 个参考清单**，外加 karpathy-skills 行为原则嫁接。详见 [CHANGELOG.md](CHANGELOG.md)。
 
 验证完整性：
 
