@@ -2,7 +2,7 @@
 
 > [中文版](origins_zh-CN.md)
 
-Per-skill upstream pinning and update notes. Use this doc when deciding whether to pull a change from Superpowers or agent-skills into devstack.
+Per-skill upstream pinning and update notes. Use this doc when deciding whether to pull a change from Superpowers, agent-skills, or andrej-karpathy-skills into devstack.
 
 ## Upstream Pins
 
@@ -10,6 +10,7 @@ Per-skill upstream pinning and update notes. Use this doc when deciding whether 
 |---|---|---|---|
 | Superpowers | 5.0.7 | 2026-04-18 | https://github.com/obra/superpowers |
 | agent-skills | 1.0.0 | 2026-04-18 | https://github.com/addyosmani/agent-skills |
+| andrej-karpathy-skills | CLAUDE.md @ 2025-10 | 2026-04-20 | https://github.com/forrestchang/andrej-karpathy-skills |
 
 When you review upstream changes, update these pins and note the decisions in the table below.
 
@@ -22,7 +23,7 @@ Rows show the devstack skill name, origin tag, and merge notes. See [CREDITS.md]
 | devstack skill | Upstream sources | Merge notes |
 |---|---|---|
 | `brainstorming` | `superpowers:brainstorming`, `agent-skills:idea-refine`, `agent-skills:spec-driven-development` | Keep SP HARD-GATE, socratic questioning, visual companion. Graft AS "Surface Assumptions" pattern. Adopt AS six-area spec template (objective/commands/structure/style/testing/boundaries) as the output of the design-doc step. Terminal state remains `writing-plans`. |
-| `writing-plans` | `superpowers:writing-plans`, `agent-skills:planning-and-task-breakdown` | Keep SP 2-5min bite-sized tasks, exact paths, complete code per step, no-placeholder rule. Add AS acceptance criteria per task and explicit dependency ordering. |
+| `writing-plans` | `superpowers:writing-plans`, `agent-skills:planning-and-task-breakdown`, `karpathy-skills:CLAUDE.md Principle 4` | Keep SP 2-5min bite-sized tasks, exact paths, complete code per step, no-placeholder rule. Add AS acceptance criteria per task and explicit dependency ordering. Graft KS instruction→verifiable-goal transformation as "Framing Tasks as Verifiable Goals". |
 | `executing-plans` | `superpowers:executing-plans` | Direct port. |
 | `subagent-driven-development` | `superpowers:subagent-driven-development` | Direct port. Keep two-stage review. |
 | `dispatching-parallel-agents` | `superpowers:dispatching-parallel-agents` | Direct port. |
@@ -38,8 +39,8 @@ Rows show the devstack skill name, origin tag, and merge notes. See [CREDITS.md]
 | `test-driven-development` | `superpowers:test-driven-development`, `agent-skills:test-driven-development` | Keep SP Iron Law ("no production code without a failing test first"), delete-and-restart rule, RED-GREEN-REFACTOR cycle. Graft AS test pyramid (80/15/5), DAMP-over-DRY, Beyoncé Rule, test-size categorization. |
 | `systematic-debugging` | `superpowers:systematic-debugging`, `agent-skills:debugging-and-error-recovery` | Keep SP 4-phase structure (investigate → analyze → hypothesize → implement) and "no fix without root cause" iron law. Graft AS 5-step triage (reproduce, localize, reduce, fix, guard) as concrete tactics inside the Investigate and Implement phases. Include AS "stop-the-line" rule. |
 | `verification-before-completion` | `superpowers:verification-before-completion` | Direct port. |
-| `incremental-implementation` | `agent-skills:incremental-implementation` | Direct port. |
-| `context-engineering` | `agent-skills:context-engineering` | Direct port. |
+| `incremental-implementation` | `agent-skills:incremental-implementation`, `karpathy-skills:CLAUDE.md Principle 3` | AS base port. Graft KS orphan-cleanup rule into Rule 0.5 Scope Discipline: orphans YOUR changes create are in scope; pre-existing dead code is not. |
+| `context-engineering` | `agent-skills:context-engineering`, `karpathy-skills:CLAUDE.md Principle 1` | AS base port. Graft KS "push back when warranted" dissent pattern into Confusion Management as "When You Disagree — Push Back". |
 
 ### standards/
 
@@ -74,3 +75,4 @@ Record each time you evaluate an upstream update:
 | Date | Upstream | From → To | Decision | Skills touched |
 |---|---|---|---|---|
 | 2026-04-18 | both | — → initial | Imported for v0.1.0 scaffold | — (content lands in batches 2-4) |
+| 2026-04-20 | andrej-karpathy-skills | — → CLAUDE.md @ 2025-10 | Grafted 3 of 4 principles (skipped Principle 2 as duplicate of code-simplification + incremental-implementation Rule 0) | `core/context-engineering`, `core/incremental-implementation`, `flow/writing-plans` |

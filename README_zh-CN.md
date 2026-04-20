@@ -30,16 +30,17 @@ devstack 把"资深工程师的做事方式"打包成一整套可执行的工作
 
 ## 项目渊源
 
-devstack 是一次融合重构。两个优秀的开源项目提供了原始素材：
+devstack 是一次融合重构。三个开源项目提供了原始素材：
 
 - **[Superpowers](https://github.com/obra/superpowers)**（作者 Jesse Vincent）— 贡献了工作流骨架、subagent 编排、git worktree 模式，以及"流程即强制"的高压声音
 - **[agent-skills](https://github.com/addyosmani/agent-skills)**（作者 Addy Osmani）— 贡献了工程规范内容：Hyrum's Law API 设计、OWASP 安全、Core Web Vitals 性能、ADR、trunk-based git、CI/CD、发布清单，以及开发阶段分类体系
+- **[andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills)**（作者 Forrest Chang，提炼自 [Andrej Karpathy](https://x.com/karpathy/status/2015883857489522876) 对 LLM 编码陷阱的观察）— 贡献了四条行为原则，其中三条被嫁接到现有 skill 中：推回异议模式（`core/context-engineering`）、精准修改的孤儿清理规则（`core/incremental-implementation`）、以及"指令→可验证目标"的任务框定法（`flow/writing-plans`）
 
-devstack 不是一个加载器或绑定器。它是一个**全新、独立的项目**，在两者思想基础上构建。每个 skill 都经过评审、合并（对于重叠的部分）、并重新调整到统一的声音和命名空间下。
+devstack 不是一个加载器或绑定器。它是一个**全新、独立的项目**，在三者思想基础上构建。每个 skill 都经过评审、合并（对于重叠的部分）、并重新调整到统一的声音和命名空间下。
 
 逐 skill 归属表见 **[CREDITS.md](CREDITS.md)**，升级追踪见 **[docs/origins.md](docs/origins.md)**。
 
-两个上游项目都是 MIT 协议。devstack 也是 MIT 协议。
+三个上游项目都是 MIT 协议。devstack 也是 MIT 协议。
 
 ---
 

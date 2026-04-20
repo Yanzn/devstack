@@ -2,7 +2,7 @@
 
 > [English version](origins.md)
 
-逐 skill 的上游版本固定和更新决策记录。决定是否从 Superpowers 或 agent-skills 拉取更新时，用这份文档。
+逐 skill 的上游版本固定和更新决策记录。决定是否从 Superpowers、agent-skills、或 andrej-karpathy-skills 拉取更新时，用这份文档。
 
 ## 上游版本固定
 
@@ -10,6 +10,7 @@
 |---|---|---|---|
 | Superpowers | 5.0.7 | 2026-04-18 | https://github.com/obra/superpowers |
 | agent-skills | 1.0.0 | 2026-04-18 | https://github.com/addyosmani/agent-skills |
+| andrej-karpathy-skills | CLAUDE.md @ 2025-10 | 2026-04-20 | https://github.com/forrestchang/andrej-karpathy-skills |
 
 每次评估完上游变更后，更新这里的版本号，在下方决策日志里记下结论。
 
@@ -22,7 +23,7 @@
 | devstack skill | 上游来源 | 合并说明 |
 |---|---|---|
 | `brainstorming` | `superpowers:brainstorming`, `agent-skills:idea-refine`, `agent-skills:spec-driven-development` | 保留 SP 的 HARD-GATE、socratic 提问、visual companion、分段审批；植入 AS 的 "Surface Assumptions" 模式；采用 AS 的六区 spec 模板（objective / commands / structure / style / testing / boundaries）作为输出格式，替换 SP 较松散的"architecture / components / data flow"指引；保留 SP 的 "Not Doing" 列表作为必填区。终点仍然是调用 `writing-plans`。 |
-| `writing-plans` | `superpowers:writing-plans`, `agent-skills:planning-and-task-breakdown` | 保留 SP 的 2-5 分钟小任务、精确路径、每步完整代码、零占位规则；增加 AS 的每任务验收标准、明确的依赖排序、任务规模 XS/S/M/L 分级、阶段间 checkpoint。 |
+| `writing-plans` | `superpowers:writing-plans`, `agent-skills:planning-and-task-breakdown`, `karpathy-skills:CLAUDE.md Principle 4` | 保留 SP 的 2-5 分钟小任务、精确路径、每步完整代码、零占位规则；增加 AS 的每任务验收标准、明确的依赖排序、任务规模 XS/S/M/L 分级、阶段间 checkpoint；植入 KS 的"指令→可验证目标"转换模式，新增 "Framing Tasks as Verifiable Goals" 段落。 |
 | `executing-plans` | `superpowers:executing-plans` | 直接移植。 |
 | `subagent-driven-development` | `superpowers:subagent-driven-development` | 直接移植。保留两阶段 review。 |
 | `dispatching-parallel-agents` | `superpowers:dispatching-parallel-agents` | 直接移植。 |
@@ -38,8 +39,8 @@
 | `test-driven-development` | `superpowers:test-driven-development`, `agent-skills:test-driven-development` | 保留 SP 的 Iron Law（"没有失败测试就不允许写生产代码"）、删-重写规则、RED-GREEN-REFACTOR 循环；植入 AS 的测试金字塔（80/15/5）、DAMP-over-DRY、Beyoncé Rule、测试大小分级。 |
 | `systematic-debugging` | `superpowers:systematic-debugging`, `agent-skills:debugging-and-error-recovery` | 保留 SP 的 4 阶段结构（investigate → analyze → hypothesize → implement）和"没根因不允许修复"的铁律；植入 AS 的 5 步 triage（reproduce / localize / reduce / fix / guard）作为 Investigate 和 Implement 阶段的具体战术；加入 AS 的"stop-the-line"规则。 |
 | `verification-before-completion` | `superpowers:verification-before-completion` | 直接移植。 |
-| `incremental-implementation` | `agent-skills:incremental-implementation` | 直接移植。 |
-| `context-engineering` | `agent-skills:context-engineering` | 直接移植。 |
+| `incremental-implementation` | `agent-skills:incremental-implementation`, `karpathy-skills:CLAUDE.md Principle 3` | 以 AS 为基底移植；植入 KS 的孤儿清理规则到 Rule 0.5 Scope Discipline：你自己改动产生的孤儿代码要清理，已经存在的死代码不要碰。 |
+| `context-engineering` | `agent-skills:context-engineering`, `karpathy-skills:CLAUDE.md Principle 1` | 以 AS 为基底移植；植入 KS 的"适时推回异议"模式到 Confusion Management，新增 "When You Disagree — Push Back" 段落。 |
 
 ### standards/
 
@@ -74,3 +75,4 @@
 | 日期 | 上游 | 版本变化 | 决策 | 涉及 skill |
 |---|---|---|---|---|
 | 2026-04-18 | 两者 | — → initial | 导入作为 v0.1.0 脚手架 | — （内容在批次 2-4 陆续落地） |
+| 2026-04-20 | andrej-karpathy-skills | — → CLAUDE.md @ 2025-10 | 嫁接 4 原则中的 3 条（原则 2 简洁优先与 code-simplification + incremental-implementation Rule 0 重复，跳过） | `core/context-engineering`、`core/incremental-implementation`、`flow/writing-plans` |

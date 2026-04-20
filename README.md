@@ -30,16 +30,17 @@ Read **[docs/philosophy.md](docs/philosophy.md)** for the design principles.
 
 ## Origin
 
-devstack is a remix. Two outstanding open-source projects contributed the raw material:
+devstack is a remix. Three open-source projects contributed raw material:
 
 - **[Superpowers](https://github.com/obra/superpowers)** by Jesse Vincent — gave us the workflow spine, subagent orchestration, git worktree patterns, and the opinionated "process as enforcement" voice.
 - **[agent-skills](https://github.com/addyosmani/agent-skills)** by Addy Osmani — gave us the engineering-standards content: Hyrum's Law API design, OWASP-based hardening, Core Web Vitals performance, ADRs, trunk-based git, CI/CD, shipping checklists, and the phase taxonomy.
+- **[andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills)** by Forrest Chang (distilling [Andrej Karpathy's observations](https://x.com/karpathy/status/2015883857489522876) on LLM coding pitfalls) — gave us four sharp behavioral principles, three of which were grafted into existing skills: push-back dissent (`core/context-engineering`), surgical-change orphan rule (`core/incremental-implementation`), and instruction→goal framing (`flow/writing-plans`).
 
 devstack is not a loader or a bundler. It is a **new, independent project** built on their ideas. Every skill has been reviewed, merged where overlapping, and adapted to a single coherent voice and namespace.
 
 See **[CREDITS.md](CREDITS.md)** for the per-skill provenance table and **[docs/origins.md](docs/origins.md)** for upgrade-tracking notes.
 
-Both upstream projects are MIT-licensed. devstack is also MIT-licensed.
+All three upstream projects are MIT-licensed. devstack is also MIT-licensed.
 
 ---
 
