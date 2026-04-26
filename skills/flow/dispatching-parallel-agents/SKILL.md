@@ -4,10 +4,11 @@ description: "Use when facing 2+ independent tasks that can be worked on without
 ---
 
 <!--
-origin: [SP]
+origin: [SP+MP]
 sources:
   - superpowers:dispatching-parallel-agents @ 5.0.7
-notes: Direct port. Namespace rewritten to devstack:flow/*.
+  - mattpocock-skills:improve-codebase-architecture/INTERFACE-DESIGN.md @ 2026-04-26
+notes: SP base port (one agent per independent problem domain). Grafted MP "Design It Twice" pattern as a named application of the parallel-dispatch primitive — three or more agents produce radically different interface designs in parallel for the same deepening candidate, then the orchestrator compares and recommends.
 -->
 
 # Dispatching Parallel Agents
@@ -145,3 +146,23 @@ Return: summary of root cause and changes.
 2. **Focus** — each agent has narrow scope, less context to track
 3. **Independence** — agents don't interfere with each other
 4. **Speed** — 3 problems in the time of 1
+
+## Pattern: Design It Twice
+
+A specialised application of parallel dispatch — instead of N agents fixing N independent failures, N agents propose N **radically different** designs for one problem. From Ousterhout's "Design It Twice": your first idea is unlikely to be the best.
+
+**When to use:** the user has chosen a deepening candidate from `devstack:flow/improving-architecture` and wants to explore alternative interfaces before committing. Also useful for: API redesigns, new module shapes, anything where the seam placement is itself the question.
+
+**Process:**
+
+1. **Frame the problem space** for the user — constraints, dependencies (and their category from `devstack:flow/improving-architecture/DEEPENING.md`), an illustrative code sketch. Show this; the user reads while agents work.
+2. **Spawn 3+ agents in parallel.** Each gets a different design constraint:
+   - Agent 1: minimize the interface (1–3 entry points, maximise leverage per entry).
+   - Agent 2: maximise flexibility (many use cases, extension points).
+   - Agent 3: optimise for the most common caller (default case trivial).
+   - Agent 4 (if applicable): ports & adapters around cross-seam dependencies.
+3. **Each agent outputs:** the interface (types, methods, invariants, ordering, errors), a usage example, what the implementation hides behind the seam, dependency strategy + adapters, and trade-offs.
+4. **Present designs sequentially.** Then compare in prose by depth (leverage at the interface), locality (where change concentrates), and seam placement.
+5. **Give your own recommendation** — opinionated. Propose a hybrid if elements combine well.
+
+The full prompt brief, including the architecture vocabulary every agent must use, lives in `devstack:flow/improving-architecture/INTERFACE-DESIGN.md`.

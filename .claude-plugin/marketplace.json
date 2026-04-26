@@ -7,7 +7,7 @@
   },
   "metadata": {
     "description": "Opinionated development stack for AI coding agents — brainstorm → plan → TDD → review → ship.",
-    "version": "0.2.0"
+    "version": "0.3.0"
   },
   "plugins": [
     {
@@ -17,7 +17,7 @@
         "repo": "Yanzn/devstack"
       },
       "description": "Opinionated development stack for AI coding agents — process discipline from brainstorm to ship, fused with production-grade engineering standards. Extensible across web, backend, mobile.",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "author": {
         "name": "Max (Zhangning.Yan)",
         "email": "yan.zncn@gmail.com"

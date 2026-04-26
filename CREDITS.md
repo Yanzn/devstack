@@ -1,6 +1,6 @@
 # Credits
 
-devstack is a remix of two upstream projects. Every skill's provenance is tracked here so future upstream updates can be compared and merged selectively.
+devstack is a remix of four upstream projects. Every skill's provenance is tracked here so future upstream updates can be compared and merged selectively.
 
 ## Upstream Projects
 
@@ -9,6 +9,7 @@ devstack is a remix of two upstream projects. Every skill's provenance is tracke
 | [Superpowers](https://github.com/obra/superpowers) | Jesse Vincent | MIT | Workflow spine, subagent orchestration, voice of flow/core skills |
 | [agent-skills](https://github.com/addyosmani/agent-skills) | Addy Osmani | MIT | Engineering-standards content, code-quality criteria, checklists |
 | [andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills) | Forrest Chang (distilling [@karpathy](https://x.com/karpathy/status/2015883857489522876)) | MIT | Four behavioral principles: think-before-coding push-back, surgical-change orphan rule, instruction→goal framing |
+| [mattpocock/skills](https://github.com/mattpocock/skills) | Matt Pocock | MIT | Architecture vocabulary (module/interface/depth/seam/adapter), deepening workflow, "Design It Twice" parallel-interface pattern, ubiquitous-language grilling |
 
 ## Per-Skill Provenance
 
@@ -16,7 +17,8 @@ Legend:
 - **[SP]** — sourced from Superpowers, lightly adapted
 - **[AS]** — sourced from agent-skills, lightly adapted
 - **[KS]** — sourced from karpathy-skills, lightly adapted
-- **[SP+AS]**, **[AS+KS]**, **[SP+AS+KS]** — merged from multiple upstreams
+- **[MP]** — sourced from mattpocock/skills, lightly adapted
+- **[SP+AS]**, **[AS+KS]**, **[AS+MP]**, **[SP+MP]**, **[SP+AS+KS]** — merged from multiple upstreams
 - **[NEW]** — original to devstack
 
 ### using-devstack (meta)
@@ -33,11 +35,13 @@ Legend:
 | `writing-plans` | [SP+AS+KS] — Superpowers writing-plans + agent-skills planning-and-task-breakdown + karpathy-skills Principle 4 (instruction→goal framing) |
 | `executing-plans` | [SP] |
 | `subagent-driven-development` | [SP] |
-| `dispatching-parallel-agents` | [SP] |
+| `dispatching-parallel-agents` | [SP+MP] — SP base port + MP "Design It Twice" pattern grafted as a named application |
 | `using-git-worktrees` | [SP] |
 | `requesting-code-review` | [SP] |
 | `receiving-code-review` | [SP] |
 | `finishing-a-development-branch` | [SP+AS] — SP finishing + AS git-workflow-and-versioning (trunk-based, atomic commits) |
+| `improving-architecture` | [MP] — mattpocock improve-codebase-architecture skill grafted whole (SKILL + LANGUAGE + DEEPENING + INTERFACE-DESIGN); renamed for gerund convention |
+| `domain-modeling` | [MP] — mattpocock domain-model skill grafted whole (SKILL + CONTEXT-FORMAT + lightweight ADR-FORMAT); renamed for gerund convention |
 
 ### core/ layer
 
@@ -53,7 +57,7 @@ Legend:
 
 | Skill | Source |
 |---|---|
-| `api-and-interface-design` | [AS] |
+| `api-and-interface-design` | [AS+MP] — AS base port + MP architecture vocabulary (module/interface/depth/seam/adapter/leverage/locality) grafted as "Architecture Vocabulary" section |
 | `frontend-ui-engineering` | [AS] |
 | `security-and-hardening` | [AS] |
 | `performance-optimization` | [AS] |
@@ -121,4 +125,4 @@ This keeps upstream traceability explicit without cluttering the skill body.
 
 ## Upstream Updates
 
-When Superpowers or agent-skills ship a meaningful update, use `docs/origins.md` and these comment blocks to decide whether to pull the change into devstack.
+When any of the four upstream projects ships a meaningful update, use `docs/origins.md` and these comment blocks to decide whether to pull the change into devstack.

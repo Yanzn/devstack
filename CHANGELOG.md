@@ -5,6 +5,21 @@ All notable changes to devstack will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] — 2026-04-26
+
+### Added — mattpocock-skills graft
+
+Grafted two skills whole and injected vocabulary + patterns into two existing skills, all sourced from [mattpocock/skills](https://github.com/mattpocock/skills) by Matt Pocock. The graft establishes a single shared vocabulary for talking about module shape (depth, seam, adapter, leverage, locality) across review, planning, and architecture-improvement workflows.
+
+- `flow/improving-architecture` _(new)_ — full graft of mattpocock's `improve-codebase-architecture` skill: three-phase process (Explore → Present → Grilling), the **deletion test**, the **two-adapter rule**, and the deepening discipline that turns shallow modules into deep ones. Companion files `LANGUAGE.md` (seven-term architecture vocabulary), `DEEPENING.md` (four dependency categories → testing strategy), `INTERFACE-DESIGN.md` (parallel sub-agent "Design It Twice" pattern). Skill renamed from `improve-codebase-architecture` to fit devstack's gerund convention.
+- `flow/domain-modeling` _(new)_ — full graft of mattpocock's `domain-model` skill: ubiquitous-language grilling session that updates `CONTEXT.md` inline as terms are resolved and offers lightweight ADRs only when hard-to-reverse + surprising + real-tradeoff all hold. Companion files `CONTEXT-FORMAT.md` (single-context and multi-context layouts) and `ADR-FORMAT.md` (lightweight 1–3 sentence variant). Marked `disable-model-invocation: true` — fires manually, typically as a side effect of `flow/improving-architecture` proposing new domain terms.
+- `standards/api-and-interface-design` — grafted MP's seven-term architecture vocabulary as a new "Architecture Vocabulary" section. Single source of truth that `flow/improving-architecture`, `standards/code-review-and-quality`, and any planning conversation point to.
+- `flow/dispatching-parallel-agents` — grafted MP's "Design It Twice" pattern as a named application of the parallel-dispatch primitive: spawn three or more agents that each produce radically different interface designs for the same problem, then compare and recommend.
+- `standards/documentation-and-adrs` — added cross-reference to the lightweight ADR variant in `flow/domain-modeling`. The standards skill remains the source of truth for the heavyweight Status / Date / Context / Decision / Consequences template; the lightweight 1–3 sentence variant lives next to the grilling skills that produce it.
+- `README.md` — added mattpocock/skills as fourth upstream. Bumped status line.
+- `CREDITS.md` — added `[MP]` legend entry, new merge tags `[AS+MP]` and `[SP+MP]`, new upstream row, new per-skill rows.
+- `docs/origins.md` — added pin (mattpocock/skills @ 2026-04-26), new flow/standards rows, change-review-log entry.
+
 ## [0.2.0] — 2026-04-20
 
 ### Added — karpathy-skills graft

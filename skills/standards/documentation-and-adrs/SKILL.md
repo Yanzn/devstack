@@ -7,7 +7,7 @@ description: Records decisions and documentation. Use when making architectural 
 origin: [AS]
 sources:
   - agent-skills:documentation-and-adrs @ 1.0.0
-notes: Direct port from agent-skills. Namespace references updated to devstack:*.
+notes: Direct port from agent-skills. Namespace references updated to devstack:*. This skill defines the heavyweight ADR template (Status / Date / Context / Decision / Consequences) for platform-level decisions. For the lightweight 1–3 sentence ADR variant used inside `devstack:flow/domain-modeling` and `devstack:flow/improving-architecture` grilling sessions, see `devstack:flow/domain-modeling/ADR-FORMAT.md`.
 -->
 
 # Documentation and ADRs

@@ -4,10 +4,11 @@ description: Guides stable API and interface design. Use when designing APIs, mo
 ---
 
 <!--
-origin: [AS]
+origin: [AS+MP]
 sources:
   - agent-skills:api-and-interface-design @ 1.0.0
-notes: Direct port from agent-skills. Namespace references updated to devstack:*.
+  - mattpocock-skills:improve-codebase-architecture/LANGUAGE.md @ 2026-04-26
+notes: AS base port (Hyrum's Law, REST patterns, validation discipline). Grafted MP architecture vocabulary as "Architecture Vocabulary" section — single source of truth for module/interface/depth/seam/adapter/leverage/locality terms used across review, planning, and architecture-improvement skills.
 -->
 
 # API and Interface Design
@@ -23,6 +24,25 @@ Design stable, well-documented interfaces that are hard to misuse. Good interfac
 - Creating component prop interfaces
 - Establishing database schema that informs API shape
 - Changing existing public interfaces
+
+## Architecture Vocabulary
+
+When discussing module shape, depth, and seams across `devstack:flow/improving-architecture`, `devstack:standards/code-review-and-quality`, and any planning conversation, use these terms exactly. Substituting "component," "service," "API," or "boundary" produces drift — different reviewers end up arguing past each other. Full definitions in `devstack:flow/improving-architecture/LANGUAGE.md`.
+
+- **Module** — anything with an interface and an implementation (function, class, package, slice). _Avoid_: unit, component, service.
+- **Interface** — everything a caller must know to use the module: types, invariants, ordering constraints, error modes, required configuration, performance characteristics. _Avoid_: API, signature (those refer only to the type-level surface).
+- **Implementation** — the code inside the module.
+- **Depth** — leverage at the interface. A **deep** module hides a lot of behaviour behind a small interface. A **shallow** module's interface is nearly as complex as its implementation.
+- **Seam** _(Michael Feathers)_ — a place where you can alter behaviour without editing in that place. The location at which a module's interface lives. _Avoid_: boundary (overloaded with DDD's bounded context).
+- **Adapter** — a concrete thing that satisfies an interface at a seam. Describes role, not substance.
+- **Leverage** — what callers get from depth: more capability per unit of interface they have to learn.
+- **Locality** — what maintainers get from depth: change, bugs, knowledge, verification concentrate at one place.
+
+Three load-bearing rules that follow from these terms:
+
+- **The interface is the test surface.** Callers and tests cross the same seam. Wanting to test past the interface usually means the module is the wrong shape.
+- **Deletion test.** Imagine deleting the module. If complexity vanishes, it was a pass-through. If complexity reappears across N callers, it was earning its keep.
+- **One adapter = hypothetical seam. Two adapters = real seam.** Don't introduce a port unless something actually varies across it.
 
 ## Core Principles
 
