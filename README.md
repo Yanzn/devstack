@@ -77,7 +77,7 @@ Adding a new technology stack (iOS, Android, Rust, Go, …) means adding **`stan
 
 ## Status
 
-**v0.3.0 — mattpocock-skills graft** (31 `SKILL.md`, 6 slash commands, 3 agents, 4 reference checklists). Adds `flow/improving-architecture` (deepening workflow + `LANGUAGE.md` / `DEEPENING.md` / `INTERFACE-DESIGN.md`) and `flow/domain-modeling` (ubiquitous-language grilling + `CONTEXT-FORMAT.md` / lightweight `ADR-FORMAT.md`); injects the seven architecture terms into `standards/api-and-interface-design` and the "Design It Twice" pattern into `flow/dispatching-parallel-agents`. See [CHANGELOG.md](CHANGELOG.md).
+**v0.4.0 — flat skill layout (BREAKING)** (31 `SKILL.md`, 6 slash commands, 3 agents, 4 reference checklists). Flattened `skills/<layer>/<name>/` → `skills/<name>/` so plugin-style skill loaders can resolve names directly (`devstack:subagent-driven-development` instead of `devstack:flow/subagent-driven-development`). Three-layer model (flow / core / standards) preserved as conceptual classification in `profiles/*.json`. See [CHANGELOG.md](CHANGELOG.md).
 
 ---
 

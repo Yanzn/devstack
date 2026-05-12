@@ -2,7 +2,7 @@
 
 > [中文版](extending_zh-CN.md)
 
-devstack is designed so that adding new platforms and tech stacks does **not** require modifying `flow/` or `core/`. You only add to `standards/`.
+devstack is designed so that adding new platforms and tech stacks does **not** require modifying the `flow` or `core` layer. You only add new skills classified as `standards`.
 
 ## Adding a New Tech-Stack Skill
 
@@ -16,14 +16,14 @@ Ask: what does a senior engineer on this stack know that a generic agent doesn't
 - **Go:** error wrapping, context propagation, goroutine lifecycle, table-driven tests
 - **Embedded:** memory budgets, deterministic timing, interrupt safety
 
-Each becomes one or more skills under `skills/standards/<domain>/`.
+Each becomes one or more skills under `skills/<domain>/` (classified as standards in profiles).
 
 ### Step 2: Draft the SKILL.md
 
-Use `meta/writing-skills` for the structure:
+Use `writing-skills` for the structure:
 
 ```
-skills/standards/ios-swift-concurrency/
+skills/ios-swift-concurrency/
 └── SKILL.md
 ```
 
@@ -80,7 +80,7 @@ devstack commands are thin shells that invoke one or more skills (the Superpower
 description: "iOS pre-submission checklist — App Store review, privacy manifest, screenshots, entitlements"
 ---
 
-Invoke the devstack:standards/ios-app-store-submission skill.
+Invoke the devstack:ios-app-store-submission skill.
 Walk through the submission checklist. Report any failing items.
 ```
 
@@ -88,13 +88,13 @@ Commands should be reserved for **workflow entry points**, not for every skill. 
 
 ## Swapping a Layer
 
-If you want to replace devstack's `flow/` with your own (e.g., a stricter brainstorming dialog), you can:
+If you want to replace devstack's flow-layer skills with your own (e.g., a stricter brainstorming dialog), you can:
 
-1. Write your replacement skills under `skills/flow/`.
-2. Leave `core/` and `standards/` untouched.
+1. Write your replacement skills under `skills/<name>/` and keep the same names referenced from commands and `using-devstack` (or update those references).
+2. Leave the core- and standards-layer skills untouched.
 3. Update `skills/using-devstack/SKILL.md`'s flow-layer section to point at the new skill names.
 
-This works because the three layers reference each other by skill name only, not by implementation.
+This works because the three layers reference each other by skill name only, not by implementation. The layer is a conceptual classification (recorded in `profiles/*.json`), not a directory.
 
 ## Contributing Back Upstream
 

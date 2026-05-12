@@ -2,7 +2,7 @@
 
 # Performance Checklist
 
-Quick reference checklist for web application performance. Use alongside the `devstack:standards/performance-optimization` skill.
+Quick reference checklist for web application performance. Use alongside the `devstack:performance-optimization` skill.
 
 ## Table of Contents
 

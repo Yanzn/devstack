@@ -97,16 +97,16 @@ devstack 不是一个加载器或绑定器。它是一个**全新、独立的项
 
 ## 扩展性
 
-加新技术栈（iOS、Android、Rust、Go…）只需在 `standards/` 下加对应 skill，**不碰 flow/ 和 core/**。详见 **[docs/extending.md](docs/extending.md)**。
+加新技术栈（iOS、Android、Rust、Go…）只需新增 standards 层的 skill，**不碰 flow 和 core 层**。详见 **[docs/extending.md](docs/extending.md)**。
 
 举例：要给 iOS 加 Swift 并发规范：
 
 ```bash
-skills/standards/ios-swift-concurrency/
+skills/ios-swift-concurrency/
 └── SKILL.md
 ```
 
-用 `meta/writing-skills` 指导写法，在 CREDITS.md 和 origins.md 登记，完工。现有任何 skill 都不用动。
+用 `writing-skills` 指导写法，在 CREDITS.md 和 origins.md 登记，完工。现有任何 skill 都不用动。
 
 ---
 
@@ -135,7 +135,7 @@ devstack 的核心判断：**两者正交，应该叠加使用**。
 
 ## 当前状态
 
-**v0.3.0 — mattpocock-skills 嫁接**（31 个 SKILL.md，6 个 slash 命令，3 个 agent，4 个参考清单）。新增 `flow/improving-architecture`（模块加深工作流 + `LANGUAGE.md` / `DEEPENING.md` / `INTERFACE-DESIGN.md`）和 `flow/domain-modeling`（统一语言研讨 + `CONTEXT-FORMAT.md` / 轻量 `ADR-FORMAT.md`）；将七个架构术语注入 `standards/api-and-interface-design`，"Design It Twice" 模式注入 `flow/dispatching-parallel-agents`。详见 [CHANGELOG.md](CHANGELOG.md)。
+**v0.4.0 — 扁平化 skill 布局（BREAKING）**（31 个 SKILL.md，6 个 slash 命令，3 个 agent，4 个参考清单）。将 `skills/<layer>/<name>/` 扁平化为 `skills/<name>/`，让插件式 skill 加载器能直接识别名称（`devstack:subagent-driven-development` 代替 `devstack:flow/subagent-driven-development`）。三层模型（flow / core / standards）作为概念分类保留在 `profiles/*.json` 中。详见 [CHANGELOG.md](CHANGELOG.md)。
 
 验证完整性：
 

@@ -1,6 +1,6 @@
 # Profiles
 
-Stack-specific manifests. Each profile declares which devstack `standards/`, `core/`, `flow/` skills a given stack should activate, plus stack-focused review areas.
+Stack-specific manifests. Each profile declares which devstack skills (classified as standards, core, flow) a given stack should activate, plus stack-focused review areas.
 
 ## Available profiles
 
@@ -27,7 +27,7 @@ Stack-specific manifests. Each profile declares which devstack `standards/`, `co
 }
 ```
 
-- `standards.enabled` — skill 目录名，路径 `skills/standards/<name>/SKILL.md`。
+- `standards.enabled` — skill 目录名，路径 `skills/<name>/SKILL.md`。
 - `standards.disabled` — 显式关闭，用来告诉 agent 该栈无需加载这些。
 - `focus_areas` — 栈专属的 review 关注点，供 `/review`、`code-reviewer` agent 读取。
 

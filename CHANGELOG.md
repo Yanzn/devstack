@@ -5,6 +5,20 @@ All notable changes to devstack will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] — 2026-05-12
+
+### Changed — flatten skill layout (BREAKING)
+
+Plugin-style skill loaders (Claude Code's Skill tool, etc.) treat the skill name as a single segment and do not resolve `<layer>/<name>` paths. Calling `devstack:flow/subagent-driven-development` fails with `Unknown skill`.
+
+- Moved every `skills/<layer>/<name>/` to `skills/<name>/`. Removed empty `skills/{flow,core,standards,meta}/` directories.
+- Rewrote all cross-references from `devstack:<layer>/<name>` → `devstack:<name>` across `commands/`, `skills/**/*.md`, `references/`, `docs/`, prompt templates.
+- Updated `docs/extending.md` / `docs/extending_zh-CN.md` / `README_zh-CN.md` / `profiles/README.md` to reflect the flat layout. The three-layer model (flow / core / standards) is preserved as a *conceptual* classification — still recorded in `profiles/*.json` arrays and narrated by `using-devstack` — but no longer encoded in directory paths.
+
+### Migration
+
+Any project, command, or template that invoked a skill via `devstack:flow/...`, `devstack:core/...`, `devstack:standards/...`, or `devstack:meta/...` must drop the layer segment. `skills/<layer>/<name>` filesystem references must drop the layer segment as well.
+
 ## [0.3.0] — 2026-04-26
 
 ### Added — mattpocock-skills graft

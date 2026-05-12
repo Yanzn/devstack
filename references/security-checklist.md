@@ -2,7 +2,7 @@
 
 # Security Checklist
 
-Quick reference for web application security. Use alongside the `devstack:standards/security-and-hardening` skill.
+Quick reference for web application security. Use alongside the `devstack:security-and-hardening` skill.
 
 ## Table of Contents
 

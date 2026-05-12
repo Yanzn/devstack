@@ -2,7 +2,7 @@
 
 > [English version](extending.md)
 
-devstack 的设计原则：增加新平台和技术栈**不需要**修改 `flow/` 或 `core/`，只在 `standards/` 下添加。
+devstack 的设计原则：增加新平台和技术栈**不需要**修改 flow 或 core 层，只新增 standards 层的 skill 即可。
 
 ## 加一个新技术栈 skill
 
@@ -16,14 +16,14 @@ devstack 的设计原则：增加新平台和技术栈**不需要**修改 `flow/
 - **Go**：错误包装、context 传播、goroutine 生命周期、table-driven 测试
 - **嵌入式**：内存预算、确定性时序、中断安全
 
-每一项变成 `skills/standards/<domain>/` 下的一个或多个 skill。
+每一项变成 `skills/<domain>/` 下的一个或多个 skill（在 profile 中归类为 standards）。
 
 ### 第 2 步：起草 SKILL.md
 
-用 `meta/writing-skills` 作结构指引：
+用 `writing-skills` 作结构指引：
 
 ```
-skills/standards/ios-swift-concurrency/
+skills/ios-swift-concurrency/
 └── SKILL.md
 ```
 
@@ -78,7 +78,7 @@ devstack 命令是"薄壳"——只调用一个或几个 skill（沿用 Superpow
 description: "iOS 提交审核前清单 —— App Store review、隐私清单、截图、entitlements"
 ---
 
-调用 devstack:standards/ios-app-store-submission skill。
+调用 devstack:ios-app-store-submission skill。
 走完提交清单。报告任何不合格项。
 ```
 
@@ -86,13 +86,13 @@ description: "iOS 提交审核前清单 —— App Store review、隐私清单�
 
 ## 换掉一整层
 
-如果你想把 devstack 的 `flow/` 换成自己的（例如更严格的 brainstorm 对话）：
+如果你想把 devstack 的 flow 层换成自己的（例如更严格的 brainstorm 对话）：
 
-1. 在 `skills/flow/` 下写你的替换 skill
-2. 保持 `core/` 和 `standards/` 不动
+1. 在 `skills/<name>/` 下写你的替换 skill，沿用原 skill 名字（或同步改 commands 和 `using-devstack` 的引用）
+2. 保持 core 层和 standards 层不动
 3. 更新 `skills/using-devstack/SKILL.md` 的 flow 层介绍，指向新的 skill 名字
 
-能这样做的原因：三层之间只按名字相互引用，不耦合实现。
+能这样做的原因：三层之间只按名字相互引用，不耦合实现。层级是概念上的分类（在 `profiles/*.json` 中登记），不是目录。
 
 ## 贡献回上游
 
