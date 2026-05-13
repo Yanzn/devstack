@@ -5,6 +5,20 @@ All notable changes to devstack will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] — 2026-05-13
+
+### Added — context-engineering: pattern-conflict and conformance rules
+
+Two behavioral additions to `core/context-engineering` covering failure modes that the existing skill described as symptoms (anti-patterns) but did not constrain as actions. Both close gaps surfaced by community discussion of multi-pattern codebases.
+
+- `core/context-engineering` — added `When Internal Patterns Conflict` subsection under Confusion Management. When the codebase itself contains two co-existing patterns for the same job, default LLM behavior is to blend them; the new rule mandates picking one (more recent / more tested), explaining the choice, flagging the other as a separate cleanup task, and never producing "compromise code" that satisfies both. Complements the existing `When Context Conflicts` (which covers spec ↔ code) by addressing code ↔ code.
+- `core/context-engineering` — added top-level `Acting on Conventions` section between Confusion Management and Anti-Patterns. Converts the descriptive anti-pattern "Agent invents a new style" into a prescriptive default: conformance beats taste inside a codebase. Lists two legitimate exceptions (active migration, harmful convention surfaced as a separate conversation) and one Red Flag (writing in a style that doesn't match the surrounding file without explicitly noting it).
+- `CREDITS.md` — `context-engineering` row annotated; new sections are explicitly **no-upstream** (community-discussion-inspired). No additions to the Upstream Projects table.
+
+### Notes
+
+No skill name changes, no profile schema changes, no breaking changes. Skills validation unaffected.
+
 ## [0.5.0] — 2026-05-13
 
 ### Added — prototyping-with-html flow skill + brainstorming UI Gate

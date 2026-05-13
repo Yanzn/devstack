@@ -12,6 +12,10 @@ notes: |
   Base port from agent-skills. Namespace references updated to devstack:*.
   Grafted karpathy-skills "push back when warranted" dissent pattern into
   Confusion Management as "When You Disagree — Push Back".
+  v0.6: added "When Internal Patterns Conflict" (Confusion Management) and
+  top-level "Acting on Conventions" section. Inspired by community
+  discussion of multi-pattern codebases and conformance-vs-taste failure
+  modes (May 2026); no upstream provenance.
 -->
 
 # Context Engineering
@@ -226,6 +230,25 @@ C) Ask — this seems like an intentional decision I shouldn't override
 → Which approach should I take?
 ```
 
+### When Internal Patterns Conflict
+
+A codebase often contains two co-existing patterns for the same job — legacy plus a migration target, or two equally valid approaches that grew in parallel. The default failure mode is to **blend them**: write new code that satisfies both. Blended code is worse than either pattern alone — it doubles the surface area for bugs and inherits the constraints of both designs.
+
+When you detect contradicting patterns in the codebase:
+
+1. **Pick one.** Prefer the more recent (commits in the last ~3 months) or the more tested (higher coverage in the test files touching it).
+2. **Explain the choice in your response**, not just in the code.
+3. **Flag the other** as a follow-up cleanup task. Do NOT clean it up in the same PR — that violates Surgical Changes.
+4. **Never blend.** "Compromise code" that tries to satisfy both patterns is the worst outcome.
+
+```
+PATTERN CONFLICT:
+- Pattern A: [where it lives, when last touched, test coverage]
+- Pattern B: [where it lives, when last touched, test coverage]
+- Choice: [A or B] because [recency / coverage / call-site count]
+- Follow-up: [the other pattern is flagged for cleanup, not touched here]
+```
+
 ### When Requirements Are Incomplete
 
 If the spec doesn't cover a case you need to implement:
@@ -281,6 +304,35 @@ PLAN:
 ```
 
 This catches wrong directions before you've built on them. It's a 30-second investment that prevents 30-minute rework.
+
+## Acting on Conventions
+
+Reading existing conventions (see Level 3) is observation. The behavioral rule that follows is separate and load-bearing: **inside a codebase, conformance beats taste.**
+
+Default action: match the existing convention even when you'd prefer a different one. A single PR that quietly introduces a second pattern doubles the codebase's cognitive load forever after — the cost is paid by every future reader.
+
+| You observe | Your preference | What you write |
+|---|---|---|
+| `snake_case` throughout | `camelCase` | `snake_case` |
+| Class components | Hooks | Class components |
+| `try/catch` per handler | Global error boundary | `try/catch` per handler |
+| Repository pattern | Direct ORM | Repository pattern |
+
+### Legitimate Exceptions
+
+Two — and only two — situations override the default:
+
+1. **A migration is already in progress.** If the last ~3 months of commits show active migration A→B (new code uses B, old code is being converted), follow B and say so. This collapses into the same decision as `When Internal Patterns Conflict` — pick the more recent, more tested pattern.
+
+2. **You genuinely believe the convention is harmful.** In that case, surface it as a *separate conversation*. Do not silently fork:
+
+   > "I noticed this module uses [convention X]. I'd normally use [Y] because [reason]. I'm matching X for this change to keep the codebase coherent. Want a separate discussion about migrating?"
+
+The exception that is NOT permitted: "I think Y is better, so I'll quietly start using Y in this one file." That is how codebases acquire incoherence.
+
+### Red Flag
+
+If you find yourself writing new code in a style different from the surrounding file *without explicitly noting it*, stop. Either match the surrounding style, or surface the deviation as a deliberate choice for the user to confirm.
 
 ## Anti-Patterns
 

@@ -52,7 +52,7 @@ Legend:
 | `systematic-debugging` | [SP+AS] — SP 4-phase root-cause + AS 5-step triage (reproduce, localize, reduce, fix, guard) |
 | `verification-before-completion` | [SP] |
 | `incremental-implementation` | [AS+KS] — agent-skills incremental-implementation + karpathy-skills Principle 3 (surgical-change orphan rule) |
-| `context-engineering` | [AS+KS] — agent-skills context-engineering + karpathy-skills Principle 1 (push-back dissent pattern) |
+| `context-engineering` | [AS+KS] — agent-skills context-engineering + karpathy-skills Principle 1 (push-back dissent pattern); v0.6 added "When Internal Patterns Conflict" + "Acting on Conventions" (no upstream — community-discussion-inspired) |
 
 ### standards/ layer
 
