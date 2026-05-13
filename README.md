@@ -77,6 +77,8 @@ Adding a new technology stack (iOS, Android, Rust, Go, …) means adding **`stan
 
 ## Status
 
+**v0.5.0 — prototyping-with-html + brainstorming UI Gate** (32 `SKILL.md`, 6 slash commands, 3 agents, 4 reference checklists). For UI features, `flow/brainstorming` now hands off to a new `flow/prototyping-with-html` skill that produces a clickable hi-fi HTML prototype the user opens in a real browser and explicitly approves *before* the spec is written. The approved prototype becomes the spec's **Visual Contract** — spec prose no longer re-describes the UI, it points to the prototype path. See [CHANGELOG.md](CHANGELOG.md).
+
 **v0.4.0 — flat skill layout (BREAKING)** (31 `SKILL.md`, 6 slash commands, 3 agents, 4 reference checklists). Flattened `skills/<layer>/<name>/` → `skills/<name>/` so plugin-style skill loaders can resolve names directly (`devstack:subagent-driven-development` instead of `devstack:flow/subagent-driven-development`). Three-layer model (flow / core / standards) preserved as conceptual classification in `profiles/*.json`. See [CHANGELOG.md](CHANGELOG.md).
 
 ---

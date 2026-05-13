@@ -37,6 +37,7 @@
   ],
   "flow": [
     "brainstorming",
+    "prototyping-with-html",
     "writing-plans",
     "executing-plans",
     "requesting-code-review",

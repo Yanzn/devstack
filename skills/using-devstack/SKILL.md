@@ -171,7 +171,8 @@ When a skill provides a checklist or numbered process, **create a TodoWrite task
 
 Every flow skill has a defined exit. For example:
 
-- `flow/brainstorming` exits by invoking `flow/writing-plans`. Not anything else.
+- `flow/brainstorming` exits by invoking `flow/writing-plans`. For UI features it first detours through `flow/prototyping-with-html` (clickable HTML prototype as the visual contract), then comes back to write the spec.
+- `flow/prototyping-with-html` exits by handing the approved prototype path + Visual Contract note back to `flow/brainstorming`.
 - `flow/writing-plans` exits by invoking `flow/subagent-driven-development` or `flow/executing-plans`.
 - `flow/work` exits by invoking `flow/requesting-code-review`.
 

@@ -5,6 +5,18 @@ All notable changes to devstack will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] — 2026-05-13
+
+### Added — prototyping-with-html flow skill + brainstorming UI Gate
+
+For features with a visible end-user surface, brainstorming now produces a clickable hi-fi HTML prototype the user opens in a real browser, iterates on, and explicitly approves *before* the spec is written. The approved prototype becomes the spec's **Visual Contract** — spec prose no longer re-describes the UI, it points to the prototype path. Words about UI rot fast; pixels lock decisions.
+
+- `flow/prototyping-with-html` _(new)_ — produces clickable hi-fi HTML prototype, mock data, real interactions, real copy. HARD-GATE on explicit user approval. Reuses any available HTML-generation skill (gstack `frontend-design` / `design-html` / `design-shotgun`) when present, otherwise writes self-contained HTML directly (no build step). Browser preview reuses `browser-testing-with-devtools` or any playwright/browse MCP, otherwise prints a `file://` URL. ≤5-iteration budget triggers structural-question reflection. Prototypes saved to `docs/devstack/prototypes/<topic>/`.
+- `flow/brainstorming` — inserted **UI Gate** as checklist step 5 between "Propose 2–3 approaches" and "Present spec section by section". UI features hand off to `prototyping-with-html` and resume after approval. Spec template gained `## Visual Contract` section (prototype path + locked decisions + out-of-scope). The Architecture section is now scoped to non-visual concerns. The old optional "Visual Companion" block is replaced by lighter "Visual Aids During Brainstorming" guidance (ASCII / mermaid for early clarifying questions; full prototype lives in the gate). Two new Red Flags cover writing UI prose before / instead of the prototype.
+- `using-devstack` — Terminal States table now records the brainstorming → prototyping detour and the prototyping → brainstorming return.
+- `profiles/{vue,django,spring}.json` — added `prototyping-with-html` to each `flow` array. The UI Gate self-skips for non-UI features, so loading everywhere is harmless and keeps the brainstorming handoff reliable.
+- `CREDITS.md` — added row for `prototyping-with-html` ([NEW], inspired by gstack design skills); annotated `brainstorming` row with v0.5 change.
+
 ## [0.4.0] — 2026-05-12
 
 ### Changed — flatten skill layout (BREAKING)

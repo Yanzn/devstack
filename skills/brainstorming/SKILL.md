@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: "You MUST use this before any creative work — creating features, building components, adding functionality, or modifying behavior. Refines a rough idea into an approved written spec through socratic dialogue. Saves the spec to docs/devstack/specs/ and hands off to writing-plans."
+description: "You MUST use this before any creative work — creating features, building components, adding functionality, or modifying behavior. Refines a rough idea into an approved spec through socratic dialogue. For UI features, invokes prototyping-with-html to lock in a clickable HTML prototype as the visual contract before writing the spec. Saves the spec to docs/devstack/specs/ and hands off to writing-plans."
 ---
 
 <!--
@@ -18,11 +18,19 @@ notes: |
   output format — replacing SP's looser "architecture, components, data flow" guidance with
   AS's more concrete structure. Dropped AS idea-refine's Phase 1–3 taxonomy in favor of
   SP's conversational flow, but kept AS's "Not Doing" list as a required output section.
+
+  v0.5: Inserted a UI Gate between "Propose approaches" and "Present spec section by section".
+  For features with a visible end-user surface, brainstorming now hands off to
+  devstack:prototyping-with-html, which produces a clickable hi-fi HTML prototype the user
+  approves in a real browser. The approved prototype becomes the spec's Visual Contract —
+  spec prose no longer re-describes the UI, it points to the prototype path.
 -->
 
 # Brainstorming Ideas Into Approved Specs
 
 Turn an idea into a written, approved specification through collaborative dialogue. The spec is the contract between you and your human partner — what you'll build, why, and how you'll know it's done.
+
+For features with a visible UI, an approved **clickable HTML prototype** is part of the contract: the spec references it instead of re-describing the UI in prose. See [UI Gate](#ui-gate).
 
 <HARD-GATE>
 Do NOT invoke any implementation skill, write any code, scaffold any project, or take any implementation action until you have presented a design and the user has approved it in writing. This applies to EVERY project regardless of perceived simplicity.
@@ -38,10 +46,10 @@ Create a TodoWrite task for each of these items and complete them in order:
 
 1. **Explore project context** — files, docs, recent commits, existing patterns
 2. **Surface assumptions** — list what you're assuming before asking anything
-3. **Offer visual companion** (only if visual questions are coming) — its own message, no other content
-4. **Ask clarifying questions** — one at a time, understand purpose / constraints / success criteria
-5. **Propose 2–3 approaches** — with trade-offs and your recommendation
-6. **Present design section by section** — get approval after each section
+3. **Ask clarifying questions** — one at a time, understand purpose / constraints / success criteria
+4. **Propose 2–3 approaches** — with trade-offs and your recommendation
+5. **UI Gate** — does this feature have a visible end-user surface? If yes, invoke `devstack:prototyping-with-html` and wait for an approved prototype + Visual Contract note before continuing
+6. **Present design section by section** — get approval after each section (UI section = the Visual Contract from step 5; do not re-describe UI in prose)
 7. **Write the spec document** — save to `docs/devstack/specs/YYYY-MM-DD-<topic>-spec.md` and commit
 8. **Spec self-review** — inline fix of placeholders, contradictions, ambiguity, scope drift
 9. **User reviews written spec** — wait for explicit approval
@@ -53,11 +61,11 @@ Create a TodoWrite task for each of these items and complete them in order:
 digraph brainstorming {
     "Explore project context" [shape=box];
     "Surface assumptions (list + ask to correct)" [shape=box];
-    "Visual questions ahead?" [shape=diamond];
-    "Offer Visual Companion\n(own message, no other content)" [shape=box];
     "Ask clarifying questions\n(one at a time)" [shape=box];
     "Propose 2-3 approaches\nwith trade-offs" [shape=box];
-    "Present spec section by section" [shape=box];
+    "UI surface present?" [shape=diamond];
+    "Invoke prototyping-with-html\n(wait for approved prototype)" [shape=box];
+    "Present spec section by section\n(UI = Visual Contract)" [shape=box];
     "User approves each section?" [shape=diamond];
     "Write spec doc to\ndocs/devstack/specs/" [shape=box];
     "Spec self-review\n(fix inline)" [shape=box];
@@ -65,14 +73,14 @@ digraph brainstorming {
     "Invoke devstack:writing-plans" [shape=doublecircle];
 
     "Explore project context" -> "Surface assumptions (list + ask to correct)";
-    "Surface assumptions (list + ask to correct)" -> "Visual questions ahead?";
-    "Visual questions ahead?" -> "Offer Visual Companion\n(own message, no other content)" [label="yes"];
-    "Visual questions ahead?" -> "Ask clarifying questions\n(one at a time)" [label="no"];
-    "Offer Visual Companion\n(own message, no other content)" -> "Ask clarifying questions\n(one at a time)";
+    "Surface assumptions (list + ask to correct)" -> "Ask clarifying questions\n(one at a time)";
     "Ask clarifying questions\n(one at a time)" -> "Propose 2-3 approaches\nwith trade-offs";
-    "Propose 2-3 approaches\nwith trade-offs" -> "Present spec section by section";
-    "Present spec section by section" -> "User approves each section?";
-    "User approves each section?" -> "Present spec section by section" [label="no, revise"];
+    "Propose 2-3 approaches\nwith trade-offs" -> "UI surface present?";
+    "UI surface present?" -> "Invoke prototyping-with-html\n(wait for approved prototype)" [label="yes"];
+    "UI surface present?" -> "Present spec section by section\n(UI = Visual Contract)" [label="no"];
+    "Invoke prototyping-with-html\n(wait for approved prototype)" -> "Present spec section by section\n(UI = Visual Contract)";
+    "Present spec section by section\n(UI = Visual Contract)" -> "User approves each section?";
+    "User approves each section?" -> "Present spec section by section\n(UI = Visual Contract)" [label="no, revise"];
     "User approves each section?" -> "Write spec doc to\ndocs/devstack/specs/" [label="yes"];
     "Write spec doc to\ndocs/devstack/specs/" -> "Spec self-review\n(fix inline)";
     "Spec self-review\n(fix inline)" -> "User reviews spec?";
@@ -118,11 +126,24 @@ If the request describes multiple independent subsystems ("build a platform with
 
 Lead with your recommendation and explain why. Give trade-offs honestly — don't rubber-stamp the first idea that came up.
 
-### 6. Present the Spec Section by Section
+### 6. UI Gate
+
+Before presenting the spec, decide: **does this feature have a visible end-user surface?**
+
+- **Yes** — pages, screens, modals, dashboards, marketing pages, app flows, component libraries with visible primitives, anything where a human looks at pixels and clicks things
+- **No** — CLIs, daemons, background jobs, internal APIs, libraries/SDKs without UI, schema migrations, infra/CI
+
+If yes: hand off to `devstack:prototyping-with-html`. That skill produces a clickable hi-fi HTML prototype the user opens in a real browser, iterates on, and explicitly approves. It returns a **Visual Contract** note (prototype path + locked decisions). Resume here once the prototype is approved.
+
+If no: skip prototyping. The spec is the only contract.
+
+**Why a prototype before the spec?** Words about UI rot fast. A spec sentence "the dashboard has a sidebar with collapsible sections" is consistent with five visually different products. A clickable HTML page is one product. Lock the visual decisions in pixels first, then capture only the non-visual contracts (data, API, edge cases, success criteria) in the spec.
+
+### 7. Present the Spec Section by Section
 
 Scale each section to its complexity. A few sentences for simple parts, up to 200–300 words for nuanced parts. Ask after each section: "Does this look right so far?"
 
-### 7. Design for Isolation and Clarity
+### 8. Design for Isolation and Clarity
 
 As you present the design:
 
@@ -168,9 +189,27 @@ One real snippet + key conventions. (Shows beats describes.)
 
 Framework, test locations, coverage expectations, which test levels for which concerns.
 
+## Visual Contract
+
+> Required for features with a visible UI surface. Omit (or write "N/A — non-UI feature") otherwise.
+
+**Prototype:** `docs/devstack/prototypes/<topic>/index.html`
+**Approved:** <YYYY-MM-DD>
+
+**Surfaces locked in:**
+- <page/screen> — <one-line purpose>
+
+**Interaction decisions worth calling out:**
+- <decision the prototype makes that's not obvious from looking at it>
+
+**Out of scope for this prototype:**
+- <thing deliberately not shown / deferred>
+
+(Pulled verbatim from the Visual Contract note returned by `prototyping-with-html`. Do not re-describe the UI in prose elsewhere in the spec — point at the prototype.)
+
 ## Architecture
 
-Components, data flow, error handling. Diagram if useful. Scale to complexity.
+Non-visual components, data flow, error handling. Diagram if useful. Scale to complexity. For UI features, the visible surfaces live in the Visual Contract / prototype, not here — this section covers what the user can't see (data shape, validation, server interactions, state machines).
 
 ## Success Criteria
 
@@ -252,20 +291,17 @@ Do NOT invoke any other skill. `writing-plans` is the next step.
 - Accepting vague success criteria like "make it faster"
 - Jumping to implementation after verbal approval — get written spec approval
 - Invoking any skill other than `writing-plans` as the terminal state
+- **For UI features:** writing the spec's UI section in prose before invoking `prototyping-with-html`
+- **For UI features:** describing screens/layouts in spec prose when an approved prototype exists — the prototype IS the description
 
-## Visual Companion (optional)
+## Visual Aids During Brainstorming
 
-A browser-based companion for showing mockups, diagrams, and visual options during brainstorming. This is a tool, not a mode — accepting it means it's available for questions that benefit from visual treatment, not that every question goes through a browser.
+For UI features, the heavy visual work happens in `prototyping-with-html` (step 6 — UI Gate). Before reaching that gate, you may still want quick visual aids during early clarifying questions — wireframe sketches, layout comparisons, architecture diagrams. Use whichever lightweight option fits:
 
-**When to offer:** Only when you anticipate upcoming questions involving visual content (mockups, layouts, wireframes, architecture diagrams). Offer exactly once, in its own message with no other content:
+- An ASCII layout sketch in chat — great for "row vs. column?", "sidebar left or right?", before any HTML exists
+- A mermaid diagram for architecture / state-machine questions
+- A one-screen static HTML mockup if a single decision genuinely needs pixels before the full prototype
 
-> "Some of what we're working on might be easier to explain if I can show it to you in a web browser. I can put together mockups, diagrams, and side-by-side visual comparisons as we go. Want to try it? (Requires opening a local URL.)"
+Keep these aids **disposable** and **focused on the current question**. The full prototype is built in the UI Gate, not piecemeal during clarifying questions.
 
-Wait for the user's response before continuing. If declined, proceed with text-only brainstorming.
-
-**Per-question decision:** Even after acceptance, decide for EACH question whether browser or terminal is better. Test: *would the user understand this better by seeing it than reading it?*
-
-- **Browser:** mockups, wireframes, layout comparisons, architecture diagrams
-- **Terminal:** requirements questions, conceptual choices, trade-off lists, A/B/C/D text options
-
-A question about a UI topic is not automatically a visual question. "What does 'personality' mean in this context?" is conceptual — use the terminal. "Which wizard layout works better?" is visual — use the browser.
+For non-UI features, ASCII / mermaid is usually all you need.

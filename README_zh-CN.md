@@ -135,6 +135,8 @@ devstack 的核心判断：**两者正交，应该叠加使用**。
 
 ## 当前状态
 
+**v0.5.0 — prototyping-with-html + brainstorming UI Gate**（32 个 SKILL.md，6 个 slash 命令，3 个 agent，4 个参考清单）。对于有可视面的功能，`flow/brainstorming` 现在会先调用新增的 `flow/prototyping-with-html` skill —— 生成可点击的 hi-fi HTML 原型，用户在真实浏览器里开起来、迭代、显式批准之后才开始写 spec。被批准的原型成为 spec 的 **Visual Contract**：spec 不再用文字复述 UI，而是直接引用原型路径。详见 [CHANGELOG.md](CHANGELOG.md)。
+
 **v0.4.0 — 扁平化 skill 布局（BREAKING）**（31 个 SKILL.md，6 个 slash 命令，3 个 agent，4 个参考清单）。将 `skills/<layer>/<name>/` 扁平化为 `skills/<name>/`，让插件式 skill 加载器能直接识别名称（`devstack:subagent-driven-development` 代替 `devstack:flow/subagent-driven-development`）。三层模型（flow / core / standards）作为概念分类保留在 `profiles/*.json` 中。详见 [CHANGELOG.md](CHANGELOG.md)。
 
 验证完整性：

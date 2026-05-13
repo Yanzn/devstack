@@ -31,7 +31,8 @@ Legend:
 
 | Skill | Source |
 |---|---|
-| `brainstorming` | [SP+AS] — Superpowers brainstorming + agent-skills idea-refine + spec-driven-development |
+| `brainstorming` | [SP+AS] — Superpowers brainstorming + agent-skills idea-refine + spec-driven-development; v0.5 added UI Gate handoff to `prototyping-with-html` and Visual Contract spec section |
+| `prototyping-with-html` | [NEW] — original to devstack; inspired by gstack's `design-shotgun` / `frontend-design` / `design-html` (clickable hi-fi HTML prototype as the visual contract before spec) |
 | `writing-plans` | [SP+AS+KS] — Superpowers writing-plans + agent-skills planning-and-task-breakdown + karpathy-skills Principle 4 (instruction→goal framing) |
 | `executing-plans` | [SP] |
 | `subagent-driven-development` | [SP] |
