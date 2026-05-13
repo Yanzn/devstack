@@ -34,7 +34,7 @@ Legend:
 | `brainstorming` | [SP+AS] — Superpowers brainstorming + agent-skills idea-refine + spec-driven-development; v0.5 added UI Gate handoff to `prototyping-with-html` and Visual Contract spec section |
 | `prototyping-with-html` | [NEW] — original to devstack; inspired by gstack's `design-shotgun` / `frontend-design` / `design-html` (clickable hi-fi HTML prototype as the visual contract before spec) |
 | `writing-plans` | [SP+AS+KS] — Superpowers writing-plans + agent-skills planning-and-task-breakdown + karpathy-skills Principle 4 (instruction→goal framing) |
-| `executing-plans` | [SP] |
+| `executing-plans` | [SP] — v0.8 added conditional delivery-manifest to Step 3 checkpoint, no-upstream (inspired by awesome-llm-apps `fullstack-developer` Output Format) |
 | `subagent-driven-development` | [SP] |
 | `dispatching-parallel-agents` | [SP+MP] — SP base port + MP "Design It Twice" pattern grafted as a named application |
 | `using-git-worktrees` | [SP] |

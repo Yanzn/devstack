@@ -5,6 +5,19 @@ All notable changes to devstack will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.0] — 2026-05-13
+
+### Added — executing-plans: conditional delivery manifest at checkpoint
+
+The Step 3 batch checkpoint now optionally includes a **delivery manifest** — a conditional block listing what changed outside the source tree, so the user can reproduce the batch's environment without diffing.
+
+- `flow/executing-plans` — Step 3 checkpoint template extended with a `Delivery manifest` block covering new/renamed files, new dependencies (with exact install command), new env vars (name + example + where read), schema/migration changes (apply + rollback), and new scripts/entry points. The rule is **strictly conditional**: include only categories that changed in this batch; omit the entire block if nothing outside the source tree changed. Explicit no-noise rule forbids `Dependencies: none` lines. New "Why the manifest matters" paragraph frames it as the difference between a checkpoint the user can act on and one they have to investigate.
+- `CREDITS.md` — `executing-plans` row annotated; the manifest section is explicitly no-upstream (inspired by [awesome-llm-apps `fullstack-developer` Output Format](https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/awesome_agent_skills/fullstack-developer), reshaped from a persona-style response template into a checkpoint-time conditional manifest).
+
+### Notes
+
+No skill name changes, no profile schema changes, no breaking changes. Skills validation unaffected.
+
 ## [0.7.0] — 2026-05-13
 
 ### Added — nextjs profile

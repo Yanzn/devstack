@@ -10,6 +10,11 @@ sources:
 notes: |
   Direct port. Namespace rewritten from superpowers:* to devstack:*.
   Path reference changed from docs/superpowers/ to docs/devstack/.
+  v0.8.0: added conditional "delivery manifest" lines to Step 3 checkpoint
+  (new files / deps / env vars / migrations / scripts). Inspired by
+  awesome-llm-apps fullstack-developer SKILL.md "Output Format" section,
+  reshaped as a checkpoint-time conditional manifest instead of a persona-style
+  response template.
 -->
 
 # Executing Plans
@@ -52,6 +57,13 @@ Batch <N> complete. Summary:
 - Task Y: <what was built, tests passing>
 - Task Z: <what was built, tests passing>
 
+Delivery manifest (only include sections that changed in this batch):
+- New / renamed files: <paths>
+- New dependencies: <exact install command, e.g. `pnpm add zod`>
+- New environment variables: <NAME — example value — where read>
+- Schema / migration changes: <apply command + rollback command>
+- New scripts or entry points: <how to run>
+
 Checkpoint verification:
 - [ ] All tests pass
 - [ ] Build succeeds
@@ -61,6 +73,10 @@ Ready for next batch?
 ```
 
 Wait for explicit "go" before starting the next batch. The checkpoint exists to let the user redirect, re-scope, or spot issues before they compound.
+
+**Delivery manifest rule:** include a manifest section only if that category *changed* in this batch. Don't write `Environment variables: none` or `Dependencies: no changes` — those lines are noise. If nothing outside the source tree changed, omit the manifest block entirely.
+
+**Why the manifest matters:** the user needs to know what to install, set, or migrate before pulling your branch. A summary that says "added auth route" without naming the new `JWT_SECRET` env var or `pnpm add jose` dependency forces the user to read the diff to reproduce your environment. The manifest is the difference between a checkpoint the user can act on and one they have to investigate.
 
 ### Step 4: Request Code Review
 
