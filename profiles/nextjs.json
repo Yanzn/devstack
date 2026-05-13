@@ -1,0 +1,65 @@
+{
+  "name": "nextjs",
+  "description": "Next.js 全栈 profile — App Router、TypeScript、Prisma + Postgres、Zod 边界校验、pnpm。",
+  "stack": {
+    "language": "typescript",
+    "framework": "next.js",
+    "build": "next",
+    "package": "pnpm",
+    "test": "vitest",
+    "orm": "prisma",
+    "db": "postgres",
+    "validation": "zod",
+    "runtime": "node",
+    "deploy": "vercel"
+  },
+  "standards": {
+    "enabled": [
+      "frontend-ui-engineering",
+      "browser-testing-with-devtools",
+      "api-and-interface-design",
+      "security-and-hardening",
+      "performance-optimization",
+      "code-review-and-quality",
+      "code-simplification",
+      "git-workflow-and-versioning",
+      "ci-cd-and-automation",
+      "documentation-and-adrs",
+      "shipping-and-launch",
+      "source-driven-development",
+      "deprecation-and-migration"
+    ],
+    "disabled": []
+  },
+  "core": [
+    "context-engineering",
+    "test-driven-development",
+    "incremental-implementation",
+    "systematic-debugging",
+    "verification-before-completion"
+  ],
+  "flow": [
+    "brainstorming",
+    "prototyping-with-html",
+    "writing-plans",
+    "executing-plans",
+    "dispatching-parallel-agents",
+    "requesting-code-review",
+    "receiving-code-review",
+    "finishing-a-development-branch"
+  ],
+  "focus_areas": [
+    "App Router：Server Component vs Client Component 边界、'use client' 滥用",
+    "Server Actions 鉴权、CSRF、输入校验、revalidatePath 副作用",
+    "Route Handlers 用 Zod schema-first 校验所有外部输入，ZodError 统一 400 响应",
+    "Prisma N+1（include vs select）、事务边界、连接池上限、迁移安全回滚",
+    "Next.js 缓存语义：fetch cache、revalidate、unstable_cache、route segment config",
+    "middleware.ts 鉴权 / 重写 / 重定向，避免阻塞 Edge runtime",
+    "环境变量泄漏：NEXT_PUBLIC_* 前缀边界、.env 分级",
+    "Bundle 体积：next/dynamic 懒加载、route-level code split、analyze",
+    "Image / Font 优化：next/image priority、next/font 自托管",
+    "鉴权方案：NextAuth/Auth.js session 策略、JWT vs database session",
+    "SEO：metadata API、sitemap、robots、OG image 动态生成",
+    "Vitest + Playwright/Testing Library 覆盖率 ≥80%，RSC 测试边界"
+  ]
+}

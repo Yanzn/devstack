@@ -7,6 +7,7 @@ Stack-specific manifests. Each profile declares which devstack skills (classifie
 | Profile | Stack | Reference |
 |---------|-------|-----------|
 | [django](./django.json) | Django + DRF + pytest | geyoto |
+| [nextjs](./nextjs.json) | Next.js App Router + TypeScript + Prisma + Postgres | — |
 | [spring](./spring.json) | Spring Boot + Gradle 多模块 + MQTT | photovoltaic-upgrade |
 | [vue](./vue.json) | Vue CLI + pnpm | energy-web |
 

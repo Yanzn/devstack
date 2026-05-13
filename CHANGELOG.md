@@ -5,6 +5,20 @@ All notable changes to devstack will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] — 2026-05-13
+
+### Added — nextjs profile
+
+Fourth stack profile, covering Next.js App Router full-stack TypeScript projects. Fills the gap between the existing backend-only (`django`, `spring`) and frontend-only (`vue`) profiles.
+
+- `profiles/nextjs.json` _(new)_ — full-stack TS profile. Stack: Next.js App Router + TypeScript + Prisma + Postgres + Zod + pnpm + Vitest, deployed on Vercel. All 13 standards enabled (frontend + backend together); no skills disabled. `focus_areas` cover Next.js-specific risks the framework introduces: RSC/Client component boundary, Server Actions auth + CSRF, Route Handler schema-first validation (Zod), Next.js cache semantics (`fetch`/`revalidate`/`unstable_cache`), middleware Edge runtime constraints, `NEXT_PUBLIC_*` env-var leak boundary, bundle splitting via `next/dynamic`, `next/image`/`next/font` optimization, NextAuth session strategy, metadata/SEO API, RSC test boundaries.
+- `profiles/README.md` — profile table updated with `nextjs` row.
+- Inspired by [awesome-llm-apps `fullstack-developer` SKILL.md](https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/awesome_agent_skills/fullstack-developer) (stack composition reference only — devstack keeps stack details in profiles, not in a mega-skill).
+
+### Notes
+
+No skill content changes, no schema changes, no breaking changes. All 26 referenced skills exist; validation passes.
+
 ## [0.6.0] — 2026-05-13
 
 ### Added — context-engineering: pattern-conflict and conformance rules
