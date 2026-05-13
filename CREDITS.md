@@ -58,7 +58,7 @@ Legend:
 
 | Skill | Source |
 |---|---|
-| `api-and-interface-design` | [AS+MP] — AS base port + MP architecture vocabulary (module/interface/depth/seam/adapter/leverage/locality) grafted as "Architecture Vocabulary" section |
+| `api-and-interface-design` | [AS+MP] — AS base port + MP architecture vocabulary (module/interface/depth/seam/adapter/leverage/locality) grafted as "Architecture Vocabulary" section; v0.9 added principle 3.5 "Schema-First: One Definition, Multiple Outputs" with cross-language table, no-upstream (inspired by awesome-llm-apps `fullstack-developer` Zod-everywhere pattern, generalized polyglot) |
 | `frontend-ui-engineering` | [AS] |
 | `security-and-hardening` | [AS] |
 | `performance-optimization` | [AS] |

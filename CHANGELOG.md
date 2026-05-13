@@ -5,6 +5,19 @@ All notable changes to devstack will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.0] — 2026-05-13
+
+### Added — api-and-interface-design: schema-first principle
+
+New principle 3.5 codifying **schema as the single source of truth** for boundary contracts. The existing skill already enforced "validate at boundaries" and showed Zod usage; this addition generalizes the discipline into a polyglot rule and makes the schema/type split an explicit anti-pattern.
+
+- `standards/api-and-interface-design` — added principle `3.5. Schema-First: One Definition, Multiple Outputs` between sections 3 and 4. Mandates deriving the static type from the schema (`z.infer`, Pydantic model class, generated DTO) rather than hand-writing parallel `interface` + `validate()` pairs. Cross-language table covers TypeScript (Zod / Valibot / ArkType / io-ts), Python (Pydantic / attrs+cattrs), Java/Kotlin (Bean Validation / JSON Schema codegen), Go (validator struct tags / ogen), Rust (serde + validator macros), and cross-stack OpenAPI codegen. Rules: schema co-located with type; one schema per boundary shape (no `Create` reuse for `Update` — use `.partial()` / `.pick()` or write explicit); explicit coercion only; schema as documentation source (OpenAPI generation, not hand-maintained docs). Anti-pattern example shows `interface` + `validateCreateTask()` drift. New rationalization row ("I'll write the type, then the validator"), new red flag, new verification item ("Schema is the single source of truth — the static type is derived from it, not hand-written in parallel").
+- `CREDITS.md` — `api-and-interface-design` row annotated; the 3.5 addition is explicitly no-upstream (inspired by [awesome-llm-apps `fullstack-developer` SKILL.md](https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/awesome_agent_skills/fullstack-developer)'s Zod-everywhere pattern, generalized to a polyglot single-source-of-truth rule).
+
+### Notes
+
+No skill name changes, no profile schema changes, no breaking changes. Skills validation unaffected.
+
 ## [0.8.0] — 2026-05-13
 
 ### Added — executing-plans: conditional delivery manifest at checkpoint

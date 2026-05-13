@@ -8,7 +8,17 @@ origin: [AS+MP]
 sources:
   - agent-skills:api-and-interface-design @ 1.0.0
   - mattpocock-skills:improve-codebase-architecture/LANGUAGE.md @ 2026-04-26
-notes: AS base port (Hyrum's Law, REST patterns, validation discipline). Grafted MP architecture vocabulary as "Architecture Vocabulary" section — single source of truth for module/interface/depth/seam/adapter/leverage/locality terms used across review, planning, and architecture-improvement skills.
+notes: |
+  AS base port (Hyrum's Law, REST patterns, validation discipline). Grafted MP
+  architecture vocabulary as "Architecture Vocabulary" section — single source of
+  truth for module/interface/depth/seam/adapter/leverage/locality terms used across
+  review, planning, and architecture-improvement skills.
+  v0.9.0: added principle 3.5 "Schema-First: One Definition, Multiple Outputs" with
+  cross-language table (Zod / Pydantic / Bean Validation / validator tags / serde /
+  OpenAPI codegen) and the anti-pattern of hand-rolling `interface` next to
+  `validate()`. Inspired by awesome-llm-apps fullstack-developer SKILL.md's
+  consistent Zod-everywhere pattern, generalized to a polyglot single-source-of-truth
+  rule. New rationalization row, red flag, and verification item match.
 -->
 
 # API and Interface Design
@@ -148,6 +158,60 @@ Where validation does NOT belong:
 - Between internal functions that share type contracts
 - In utility functions called by already-validated code
 - On data that just came from your own database
+
+### 3.5. Schema-First: One Definition, Multiple Outputs
+
+The schema is the single source of truth. Write it once; derive the runtime validator, the static type, the docs, and the client. Don't maintain parallel `interface` + `validate()` pairs — they drift the first time someone edits one without the other.
+
+```typescript
+// Single source of truth
+const CreateTaskSchema = z.object({
+  title: z.string().min(1).max(200),
+  description: z.string().optional(),
+  priority: z.enum(['low', 'medium', 'high']).default('medium'),
+});
+
+// Type derived from schema — no duplication
+type CreateTaskInput = z.infer<typeof CreateTaskSchema>;
+
+// Same schema validates at the boundary
+const data = CreateTaskSchema.parse(req.body);
+// `data` is typed `CreateTaskInput`, fully validated. Internal code can trust it.
+```
+
+**Anti-pattern (schema / type split):**
+
+```typescript
+// Type and validator drift apart — change one, forget the other.
+interface CreateTaskInput {
+  title: string;
+  description?: string;
+  priority?: 'low' | 'medium' | 'high';
+}
+
+function validateCreateTask(input: unknown): CreateTaskInput {
+  // Hand-rolled checks that don't match the type 100% of the time.
+}
+```
+
+Cross-language equivalents — pick the stack's idiomatic schema-first tool:
+
+| Stack | Schema-first tool | Type derivation |
+|---|---|---|
+| TypeScript | Zod, Valibot, ArkType, io-ts | `z.infer<typeof S>` |
+| Python | Pydantic v2, attrs + cattrs | The model class itself is the type |
+| Java / Kotlin | Bean Validation on POJOs, or JSON Schema → codegen | Schema-generated DTOs |
+| Go | `go-playground/validator` struct tags; or JSON Schema + `ogen` | Tagged struct is the type |
+| Rust | `serde` + `validator` derive macros | Annotated struct is the type |
+| Cross-stack | OpenAPI / JSON Schema → server stubs + clients + docs | Generated DTOs in every language |
+
+Rules:
+
+- Schema definition lives next to the type definition — same file when the language allows.
+- Derive the static type from the schema (`z.infer`, Pydantic model class, generated DTO). Never hand-write a parallel `interface`.
+- One schema per boundary shape. Don't reuse the `Create` schema for `Update`; either compose with `.partial()` / `.pick()` or write an explicit `Update` schema. Reusing creates wrong defaults and wrong required-fields.
+- Coercion is explicit. Use `z.coerce.date()` / Pydantic `mode='before'` only when the boundary genuinely receives strings that should become dates — never as a blanket "be lenient" knob.
+- The schema is the documentation. Generate OpenAPI from the schema (e.g. `zod-to-openapi`, FastAPI's automatic schema, `springdoc`) rather than maintaining a separate doc file that goes stale.
 
 ### 4. Prefer Addition Over Modification
 
@@ -297,6 +361,7 @@ function getTask(id: TaskId): Promise<Task> { ... }
 | "Nobody uses that undocumented behavior" | Hyrum's Law: if it's observable, somebody depends on it. Treat every public behavior as a commitment. |
 | "We can just maintain two versions" | Multiple versions multiply maintenance cost and create diamond dependency problems. Prefer the One-Version Rule. |
 | "Internal APIs don't need contracts" | Internal consumers are still consumers. Contracts prevent coupling and enable parallel work. |
+| "I'll write the type, then the validator" | Two sources of truth drift. Write the schema once and derive the type from it. |
 
 ## Red Flags
 
@@ -307,12 +372,14 @@ function getTask(id: TaskId): Promise<Task> { ... }
 - List endpoints without pagination
 - Verbs in REST URLs (`/api/createTask`, `/api/getUsers`)
 - Third-party API responses used without validation or sanitization
+- Hand-written `interface` next to a hand-written `validate()` — schema and type must come from one definition
 
 ## Verification
 
 After designing an API:
 
 - [ ] Every endpoint has typed input and output schemas
+- [ ] Schema is the single source of truth — the static type is derived from it, not hand-written in parallel
 - [ ] Error responses follow a single consistent format
 - [ ] Validation happens at system boundaries only
 - [ ] List endpoints support pagination
