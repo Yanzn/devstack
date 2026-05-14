@@ -5,6 +5,20 @@ All notable changes to devstack will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.10.0] — 2026-05-14
+
+### Added — aesthetic-direction discipline for greenfield UI
+
+Two coordinated additions that close devstack's gap on **positive design direction** for greenfield work. The existing `frontend-ui-engineering` skill enforced engineering quality (a11y, spacing scale, responsive states) and listed AI-aesthetic anti-patterns, but offered no forward guidance for "what should this look like" when no design system existed. New content fills that gap and chains into the prototype gate.
+
+- `standards/frontend-ui-engineering` — added **Aesthetic Direction (Greenfield)** section between "Design System Adherence" and "Accessibility". Activates only when no established design system applies (existing-design-system projects defer to their tokens, unchanged). Contents: 11-flavor flavor table (brutally minimal / maximalist / editorial / brutalist / retro-futuristic / art deco / luxury / organic / playful / pastel / industrial) with the rule "state the direction as one sentence the user can quote back"; specific font bans (`Inter` / `Roboto` / `Arial` / `Helvetica Neue` / system stack for display + the `Space Grotesk` / `Manrope` convergence trap); atmosphere vocabulary (gradient mesh / SVG noise / geometric pattern / translucent layers / exceeded-default shadows / decorative borders) with a hard cap of two layers; motion stance (CSS-only first, single orchestrated page-load reveal over scattered micro-interactions, mandatory `prefers-reduced-motion` fallback); complexity-matching rule (minimal demands precision, maximalist demands elaboration — half-maximalism reads as broken); anti-convergence rule (vary theme / display font / accent / hero layout across consecutive generations). Two new rationalization rows ("no design system, look doesn't matter" / "Inter is neutral"), three new red flags (no direction stated, banned display fonts, three+ atmosphere layers), one new verification item.
+- `flow/prototyping-with-html` — added **"Commit to aesthetic direction"** as Process step 4, between "Choose generation tool" and "Generate the prototype". Process flow diagram updated. New top-level "Aesthetic Direction" section enforces the one-sentence direction statement before generation and defers full guidance to `frontend-ui-engineering` § Aesthetic Direction (Greenfield) to avoid duplication. Two prototype-specific additions: "show the direction in the first 30 seconds" (no scroll-to-find-the-look) and "don't reuse the previous prototype's palette / font / hero layout in this session" (the point of prototypes is options, not convergence). Two new anti-patterns match.
+- `CREDITS.md` — `frontend-ui-engineering` and `prototyping-with-html` rows annotated; aesthetic-direction content is explicitly no-upstream (inspired by [anthropics/skills `frontend-design`](https://github.com/anthropics/skills/tree/main/skills/frontend-design), kept conditional so existing-design-system projects continue to defer to their tokens).
+
+### Notes
+
+No skill name changes, no profile schema changes, no breaking changes. `frontend-ui-engineering` Aesthetic Direction section is explicitly opt-in (greenfield-only); projects with a design system are unaffected. Skills validation unaffected.
+
 ## [0.9.0] — 2026-05-13
 
 ### Added — api-and-interface-design: schema-first principle

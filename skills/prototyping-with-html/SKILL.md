@@ -17,6 +17,15 @@ notes: |
   HTML skill when present (frontend-design, design-html), otherwise writes HTML
   directly. Browser preview reuses devstack:browser-testing-with-devtools or any
   available playwright/browse MCP, otherwise prints a file:// URL the user opens.
+  v0.10.0: added "Commit to aesthetic direction" step between "Choose generation
+  tool" and "Generate the prototype" (Process step 4). New "Aesthetic Direction"
+  section enforces a one-sentence direction statement before generation; defers
+  the full flavor / font / atmosphere / motion / anti-convergence guidance to
+  devstack:frontend-ui-engineering § Aesthetic Direction (Greenfield) to avoid
+  duplication. Two prototype-specific rules added: "show direction in first
+  30 seconds" and "don't reuse previous prototype's palette/font in same
+  session". Anti-patterns and process flow diagram updated. Inspired by
+  anthropics/skills frontend-design SKILL.md.
 -->
 
 # Prototyping With HTML
@@ -66,13 +75,14 @@ Create a TodoWrite task per item. Work in order.
 1. **Identify the UI surfaces** — what screens / pages / modals does this feature touch? List them.
 2. **Identify the canonical user flow** — the happy path the prototype must support clicking through.
 3. **Choose generation tool** — prefer an available hi-fi HTML skill, otherwise write HTML directly (see [Generation Tools](#generation-tools)).
-4. **Generate the prototype** — save to `docs/devstack/prototypes/<topic>/index.html` plus any sibling pages.
-5. **Add realistic mock data** — populate every visible element with content that resembles real production data.
-6. **Wire interactions** — clickable links between pages, hover states, form submission to a "success" page, at least one empty/loading/error state.
-7. **Open the prototype in a browser** — use [Browser Preview](#browser-preview) to give the user a URL they can open right now.
-8. **Capture feedback** — wait for the user to interact and respond. Ask one focused question per round (see [Feedback Loop](#feedback-loop)).
-9. **Iterate** — apply changes, re-open, ask again. Keep going until the user explicitly approves.
-10. **Hand back to brainstorming** — return the prototype path + a short Visual Contract note for the spec.
+4. **Commit to an aesthetic direction** — name it in one sentence before generating (see [Aesthetic Direction](#aesthetic-direction)). Skip this only when an established design system applies.
+5. **Generate the prototype** — save to `docs/devstack/prototypes/<topic>/index.html` plus any sibling pages.
+6. **Add realistic mock data** — populate every visible element with content that resembles real production data.
+7. **Wire interactions** — clickable links between pages, hover states, form submission to a "success" page, at least one empty/loading/error state.
+8. **Open the prototype in a browser** — use [Browser Preview](#browser-preview) to give the user a URL they can open right now.
+9. **Capture feedback** — wait for the user to interact and respond. Ask one focused question per round (see [Feedback Loop](#feedback-loop)).
+10. **Iterate** — apply changes, re-open, ask again. Keep going until the user explicitly approves.
+11. **Hand back to brainstorming** — return the prototype path + a short Visual Contract note for the spec.
 
 ## Process Flow
 
@@ -80,6 +90,7 @@ Create a TodoWrite task per item. Work in order.
 digraph prototyping {
     "Identify UI surfaces & flow" [shape=box];
     "Choose generation tool" [shape=box];
+    "Commit to aesthetic direction\n(one-sentence statement)" [shape=box];
     "Generate hi-fi HTML\n+ mock data\n+ clickable interactions" [shape=box];
     "Open prototype in browser" [shape=box];
     "User interacts & responds" [shape=box];
@@ -88,7 +99,8 @@ digraph prototyping {
     "Hand back to brainstorming\nwith prototype path" [shape=doublecircle];
 
     "Identify UI surfaces & flow" -> "Choose generation tool";
-    "Choose generation tool" -> "Generate hi-fi HTML\n+ mock data\n+ clickable interactions";
+    "Choose generation tool" -> "Commit to aesthetic direction\n(one-sentence statement)";
+    "Commit to aesthetic direction\n(one-sentence statement)" -> "Generate hi-fi HTML\n+ mock data\n+ clickable interactions";
     "Generate hi-fi HTML\n+ mock data\n+ clickable interactions" -> "Open prototype in browser";
     "Open prototype in browser" -> "User interacts & responds";
     "User interacts & responds" -> "User approves?";
@@ -118,6 +130,27 @@ If you write HTML directly, follow these defaults:
 - Keep it self-contained: a user can `open index.html` and the whole prototype works
 
 **Never use a build step for prototypes.** A prototype that requires `npm install` defeats its own purpose.
+
+## Aesthetic Direction
+
+Most prototypes are greenfield — no design system to defer to. Without an explicit direction, generation drifts to AI defaults (Inter on white, purple gradient, identical layouts across runs). Before generating, **state the aesthetic direction in one sentence the user can quote back.**
+
+Examples of a valid statement:
+
+- *"Editorial magazine — large serif display, wide gutters, drop caps on section openers."*
+- *"Brutally minimal — single accent color, mono numbers, near-zero decoration."*
+- *"Retro-futuristic dashboard — neon-on-dark, scanline overlay, monospace labels."*
+
+If you can't say the sentence, you haven't picked.
+
+**Full flavor table, font bans, atmosphere vocabulary, motion stance, and the "don't converge across generations" rule live in `devstack:frontend-ui-engineering` § Aesthetic Direction (Greenfield). Use that section as the source of truth; this skill only enforces the gate.**
+
+Two prototype-specific additions:
+
+- **Show the direction in the first 30 seconds.** Hero / first-fold / above-the-fold must read the direction immediately. If the user has to scroll to see what you picked, the prototype is hedging.
+- **Don't reuse the previous prototype's palette and font in this session.** If the last prototype was warm-luxury-serif, this one shouldn't open with warm-luxury-serif unless the user asked. The point of generating prototypes is to give the user options, not converge on your favorite.
+
+When a design system DOES exist in the project (an existing `tokens.css`, brand guide, or component library), skip this gate and follow the system. The prototype's job is then to apply the system to the new surface, not invent a look.
 
 ## Browser Preview
 
@@ -194,6 +227,8 @@ This block goes into the spec under a `## Visual Contract` heading. The rest of 
 - **Asking "what do you think?"** instead of one focused question
 - **Treating "looks OK" as approval** — push for explicit yes
 - **Re-describing the prototype in spec prose** — the prototype IS the description; spec only captures non-visual contracts
+- **Generating without naming an aesthetic direction** — greenfield prototypes that skip the one-sentence direction converge on AI defaults
+- **Reusing the previous prototype's palette / display font / hero layout** in the same session — convergence is a tell
 
 ## Red Flags
 

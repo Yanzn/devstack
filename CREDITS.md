@@ -32,7 +32,7 @@ Legend:
 | Skill | Source |
 |---|---|
 | `brainstorming` | [SP+AS] — Superpowers brainstorming + agent-skills idea-refine + spec-driven-development; v0.5 added UI Gate handoff to `prototyping-with-html` and Visual Contract spec section |
-| `prototyping-with-html` | [NEW] — original to devstack; inspired by gstack's `design-shotgun` / `frontend-design` / `design-html` (clickable hi-fi HTML prototype as the visual contract before spec) |
+| `prototyping-with-html` | [NEW] — original to devstack; inspired by gstack's `design-shotgun` / `frontend-design` / `design-html` (clickable hi-fi HTML prototype as the visual contract before spec); v0.10 added aesthetic-direction gate as Process step 4 (defers full guidance to `frontend-ui-engineering` § Aesthetic Direction (Greenfield); inspired by anthropics/skills `frontend-design`) |
 | `writing-plans` | [SP+AS+KS] — Superpowers writing-plans + agent-skills planning-and-task-breakdown + karpathy-skills Principle 4 (instruction→goal framing) |
 | `executing-plans` | [SP] — v0.8 added conditional delivery-manifest to Step 3 checkpoint, no-upstream (inspired by awesome-llm-apps `fullstack-developer` Output Format) |
 | `subagent-driven-development` | [SP] |
@@ -59,7 +59,7 @@ Legend:
 | Skill | Source |
 |---|---|
 | `api-and-interface-design` | [AS+MP] — AS base port + MP architecture vocabulary (module/interface/depth/seam/adapter/leverage/locality) grafted as "Architecture Vocabulary" section; v0.9 added principle 3.5 "Schema-First: One Definition, Multiple Outputs" with cross-language table, no-upstream (inspired by awesome-llm-apps `fullstack-developer` Zod-everywhere pattern, generalized polyglot) |
-| `frontend-ui-engineering` | [AS] |
+| `frontend-ui-engineering` | [AS] — v0.10 added "Aesthetic Direction (Greenfield)" section (11-flavor flavor table, specific font bans incl. Space Grotesk / Manrope convergence trap, atmosphere vocabulary, motion stance with mandatory prefers-reduced-motion, complexity-matching, anti-convergence) conditional on no existing design system; no-upstream (inspired by anthropics/skills `frontend-design` aesthetic ambition) |
 | `security-and-hardening` | [AS] |
 | `performance-optimization` | [AS] |
 | `code-review-and-quality` | [AS] |

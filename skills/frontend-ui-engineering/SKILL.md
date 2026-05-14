@@ -7,7 +7,21 @@ description: Builds production-quality UIs. Use when building or modifying user-
 origin: [AS]
 sources:
   - agent-skills:frontend-ui-engineering @ 1.0.0
-notes: Direct port from agent-skills. Namespace references updated to devstack:*.
+notes: |
+  Direct port from agent-skills. Namespace references updated to devstack:*.
+  v0.10.0: added "Aesthetic Direction (Greenfield)" section between
+  "Design System Adherence" and "Accessibility". Conditional on no
+  established design system. Covers 11-flavor flavor table, specific
+  font bans (Inter / Roboto / Arial / system stack for display + the
+  Space Grotesk / Manrope convergence trap), atmosphere vocabulary
+  (gradient mesh / noise / geometric pattern / translucent layers /
+  exceeded-default shadows / decorative borders), motion stance
+  (CSS-only first, staggered reveal, prefers-reduced-motion
+  mandatory), complexity-matching rule, anti-convergence rule.
+  New rationalization rows, red flags, verification item. Inspired
+  by anthropics/skills frontend-design SKILL.md (aesthetic ambition
+  + AI-default resistance), kept conditional so existing-design-system
+  projects still defer to their tokens.
 -->
 
 # Frontend UI Engineering
@@ -169,6 +183,81 @@ Don't skip heading levels. Don't use heading styles for non-heading content.
 - Ensure sufficient contrast (4.5:1 for normal text, 3:1 for large text)
 - Don't rely solely on color to convey information (use icons, text, or patterns too)
 
+## Aesthetic Direction (Greenfield)
+
+When the project has an established design system — tokens, a brand guide, a component library, an existing product look — the section above applies and overrides this one. Follow the system.
+
+When you're building greenfield (a new landing page, a fresh artifact, a demo, a marketing site, a brand-new project) and there's no established visual identity yet, "follow the design system" gives no signal. Default LLM behavior here is to drift toward AI defaults: Inter on white, purple gradient, equal padding everywhere, identical layouts across runs. Resist explicitly.
+
+### Pick a direction
+
+Commit to ONE aesthetic flavor. Don't blend three.
+
+| Flavor | Signal |
+|---|---|
+| Brutally minimal | Aggressive whitespace, single-weight type, near-monochrome with one accent |
+| Maximalist | Layered patterns, multiple type families, dense composition, decorative noise |
+| Editorial / magazine | Wide gutters, large serif display, drop caps, pull quotes, two-column body |
+| Brutalist / raw | Visible grid, unstyled-looking defaults, sharp corners, no shadows |
+| Retro-futuristic | CRT artifacts, neon, mono type, scanlines |
+| Art deco / geometric | Symmetry, repeating patterns, metallic accents, custom borders |
+| Luxury / refined | Serifs, thin rules, premium spacing, restrained palette |
+| Organic / natural | Soft asymmetric shapes, paper textures, hand-drawn elements |
+| Playful / toy | Saturated primaries, chunky rounded, soft shadows, bounce motion |
+| Industrial / utilitarian | Monospace, technical labels, visible measurements, zero decoration |
+
+State the direction as one sentence: *"Editorial magazine — large serif display, wide gutters, drop caps on section openers."* If you can't say that sentence, you haven't picked.
+
+### Specific font bans for display
+
+Greenfield UIs that use these fonts read as AI-generated:
+
+- `Inter`, `Roboto`, `Arial`, `Helvetica Neue`, or the system font stack used for headings and display
+- Reusing `Space Grotesk` / `Manrope` across consecutive prototypes — the "safe distinctive" pair has also become a tell
+
+Pair one distinctive display font with a refined body font. Pick from Google Fonts, Fontshare, or the project's brand assets. Specify both `font-family` and `font-weight` in the token — picking only the family is half a decision.
+
+### Atmosphere
+
+A solid white or solid black background is a default, not a choice. Pick at most two of these and commit:
+
+- Multi-stop radial gradient (gradient mesh)
+- Low-opacity SVG noise or grain overlay
+- Repeating geometric pattern (low contrast)
+- Layered translucent panels
+- Drop shadow or glow that exceeds safe defaults
+- Decorative borders or custom cursor (marketing surfaces only)
+
+More than two layers reads as noise, not atmosphere.
+
+### Motion stance
+
+- CSS-only first for static HTML — `@keyframes`, `transition`, scroll-driven animations where supported
+- Motion (ex-Framer Motion) for React when the dependency is acceptable
+- One orchestrated page-load reveal with staggered `animation-delay` outperforms scattered micro-interactions
+- Hover and focus states should do more than `:hover { opacity: 0.8 }` — recolor + nudge + cursor change can land as a single interaction
+- Pair every animation with a `@media (prefers-reduced-motion: reduce)` fallback — no exceptions
+
+### Complexity matching
+
+Match implementation effort to the flavor.
+
+- Minimal flavors demand precision: a single perfect type pairing, exact spacing, zero decorative noise. Restraint *is* the work.
+- Maximalist flavors demand elaboration: multiple textures, animation layers, type variants, asymmetric composition. Half-maximalism reads as broken.
+
+A "minimal" design with sloppy spacing is failed minimalism. A "maximalist" design with two layers of decoration is failed maximalism.
+
+### Don't converge across generations
+
+When generating multiple prototypes or artifacts in sequence, **vary**:
+
+- Light vs dark theme
+- Display font (don't reuse last session's pick)
+- Accent color
+- Hero layout / section composition
+
+Convergence is a tell of templated thinking. Variation is intentional design work.
+
 ## Accessibility (WCAG 2.1 AA)
 
 Every component must meet these standards:
@@ -312,6 +401,8 @@ For detailed accessibility requirements and testing tools, see `references/acces
 | "The design isn't final, so I'll skip styling" | Use the design system defaults. Unstyled UI creates a broken first impression for reviewers. |
 | "This is just a prototype" | Prototypes become production code. Build the foundation right. |
 | "The AI aesthetic is fine for now" | It signals low quality. Use the project's actual design system from the start. |
+| "There's no design system yet, so the look doesn't matter" | Greenfield without commitment converges on AI defaults. Pick an aesthetic direction in one sentence before generating. |
+| "Inter is fine, it's neutral" | Inter / Roboto / Arial as display fonts read as AI-generated for greenfield work. Pair a distinctive display with a refined body. |
 
 ## Red Flags
 
@@ -321,6 +412,9 @@ For detailed accessibility requirements and testing tools, see `references/acces
 - No keyboard navigation testing
 - Color as the sole indicator of state (red/green without text or icons)
 - Generic "AI look" (purple gradients, oversized cards, stock layouts)
+- Greenfield work with no stated aesthetic direction — implicit defaults converge on AI slop
+- Display type set in `Inter`, `Roboto`, `Arial`, or the system stack on greenfield surfaces
+- Three or more atmosphere layers stacked (gradient + noise + pattern + shadow) — atmosphere becomes noise
 
 ## Verification
 
@@ -332,4 +426,5 @@ After building UI:
 - [ ] Responsive: works at 320px, 768px, 1024px, 1440px
 - [ ] Loading, error, and empty states all handled
 - [ ] Follows the project's design system (spacing, colors, typography)
+- [ ] For greenfield: an aesthetic direction was named in one sentence before generation, and the output reflects it
 - [ ] No accessibility warnings in dev tools or axe-core
