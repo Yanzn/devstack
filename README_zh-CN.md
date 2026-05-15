@@ -57,12 +57,18 @@ devstack 不是一个加载器或绑定器。它是一个**全新、独立的项
 在任何会话里：
 
 ```bash
+# 阶段命令（工作流骨架 —— 顺序、带闸）
 /devstack         # 了解三层模型
 /brainstorm       # 开启新功能 —— 把想法打磨成规格
 /plan             # 把规格拆成小任务列表
 /work             # 用 subagent 驱动模式执行
 /review           # 合并前五轴代码 review
 /ship             # 上线前清单 + 部署
+
+# 磨刀命令（跨切工具 —— 任何阶段可触发）
+/grill            # 对既有规格/计划/决策做对抗式拷问
+/zoom-out         # 跳出隧道视野 —— 把代码放回系统语境
+/architecture     # 周期性架构抗熵 pass
 ```
 
 日常小修小补不需要任何 slash 命令 —— `core/` 层（TDD、调试、验证）会自动生效。
@@ -134,6 +140,8 @@ devstack 的核心判断：**两者正交，应该叠加使用**。
 ---
 
 ## 当前状态
+
+**v0.11.0 — 磨刀命令（`/grill`、`/zoom-out`、`/architecture`）**。三条跨切入口，与阶段骨架解耦。`flow/challenging-plans` 对既有制品（spec / plan / ADR / 在飞决策）逐题对抗拷问，CONTEXT.md / ADR 边谈边写。`core/zooming-out` 用四个固定问题（直接调用方、领域概念、删除测试、决策落点）跳出隧道视野。`flow/improving-architecture` 重新定位为周期性架构抗熵仪式，给出明确节奏建议。详见 [CHANGELOG.md](CHANGELOG.md)。
 
 **v0.5.0 — prototyping-with-html + brainstorming UI Gate**（32 个 SKILL.md，6 个 slash 命令，3 个 agent，4 个参考清单）。对于有可视面的功能，`flow/brainstorming` 现在会先调用新增的 `flow/prototyping-with-html` skill —— 生成可点击的 hi-fi HTML 原型，用户在真实浏览器里开起来、迭代、显式批准之后才开始写 spec。被批准的原型成为 spec 的 **Visual Contract**：spec 不再用文字复述 UI，而是直接引用原型路径。详见 [CHANGELOG.md](CHANGELOG.md)。
 

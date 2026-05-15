@@ -41,8 +41,9 @@ Legend:
 | `requesting-code-review` | [SP] |
 | `receiving-code-review` | [SP] |
 | `finishing-a-development-branch` | [SP+AS] — SP finishing + AS git-workflow-and-versioning (trunk-based, atomic commits) |
-| `improving-architecture` | [MP] — mattpocock improve-codebase-architecture skill grafted whole (SKILL + LANGUAGE + DEEPENING + INTERFACE-DESIGN); renamed for gerund convention |
+| `improving-architecture` | [MP] — mattpocock improve-codebase-architecture skill grafted whole (SKILL + LANGUAGE + DEEPENING + INTERFACE-DESIGN); renamed for gerund convention; v0.11 reframed as periodic anti-entropy ritual with explicit cadence section and `/architecture` slash command (no upstream content change, framing only) |
 | `domain-modeling` | [MP] — mattpocock domain-model skill grafted whole (SKILL + CONTEXT-FORMAT + lightweight ADR-FORMAT); renamed for gerund convention |
+| `challenging-plans` | [MP] — merger of mattpocock `grill-me` (productivity) + `grill-with-docs` (engineering) into a single doc-aware adversarial grilling skill. Lazy CONTEXT.md / ADR detection: works in pure-grilling mode when those files are absent, hooks into them when present. Defers file formats to `devstack:domain-modeling`. New in v0.11 |
 
 ### core/ layer
 
@@ -53,6 +54,7 @@ Legend:
 | `verification-before-completion` | [SP] |
 | `incremental-implementation` | [AS+KS] — agent-skills incremental-implementation + karpathy-skills Principle 3 (surgical-change orphan rule) |
 | `context-engineering` | [AS+KS] — agent-skills context-engineering + karpathy-skills Principle 1 (push-back dissent pattern); v0.6 added "When Internal Patterns Conflict" + "Acting on Conventions" (no upstream — community-discussion-inspired) |
+| `zooming-out` | [MP] — port of mattpocock `zoom-out`. devstack adaptation: uses Agent `subagent_type=Explore` for upward walk (matches improving-architecture pattern), reads CONTEXT.md / docs/adr/ lazily, four-question structure (callers / domain concept / deletion test / decision-record locations) maps onto the architecture vocabulary in `improving-architecture` § Glossary. New in v0.11 |
 
 ### standards/ layer
 

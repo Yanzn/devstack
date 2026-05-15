@@ -5,6 +5,28 @@ All notable changes to devstack will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.11.0] — 2026-05-15
+
+### Added — sharpening commands (`/grill`, `/zoom-out`, `/architecture`)
+
+Three new cross-cutting entry points, distinct from the phase spine (`/brainstorm` → `/plan` → `/work` → `/review` → `/ship`). The phase spine is sequential and gated; sharpening commands have no gates and fire at any phase when the signal appears. This closes devstack's gap around adversarial review of existing artifacts, anti-tunnel-vision context elevation, and periodic architecture maintenance. All three are ported or reframed from [mattpocock/skills](https://github.com/mattpocock/skills); see `CREDITS.md` for per-skill provenance.
+
+- `flow/challenging-plans` (new) — merger of mattpocock's `grill-me` (productivity, no doc awareness) and `grill-with-docs` (engineering, hooks into CONTEXT.md + ADRs) into a single doc-aware adversarial grilling skill. Lazy detection of `CONTEXT.md` / `docs/adr/` means it operates in pure-grilling mode when those files are absent and writes into them when present. Discipline: one question per turn with attached recommended answer; explore the codebase yourself when the answer lives there; surface CONTEXT.md / ADR contradictions the moment they appear; update glossary / write ADR / revise spec **inline** as decisions crystallize (no batched verbal summary). Eight question types (Definitional / Boundary / Failure mode / Cost / Reversibility / Prior art / Scope / Verification) rotate through. Three terminal states (artifact survives intact / needs revision / fundamentally unsound — recommend going back to `/brainstorm`). Distinct from `flow/brainstorming` (forward-going socratic dialogue against no existing artifact) and from `flow/improving-architecture` step 3 (grilling scoped to a selected deepening candidate, architecture-only). Slash command: `/grill`.
+
+- `core/zooming-out` (new) — port of mattpocock's `zoom-out`, kept lightweight and single-pass. devstack adaptation: uses Agent `subagent_type=Explore` for the upward walk (matches the pattern in `improving-architecture`); reads `CONTEXT.md` / `docs/adr/` lazily; produces exactly four answers (Who calls this / What concept it represents / Deletion test / Where related decisions live) in 2–4 sentences each. Four-question structure maps onto the architecture vocabulary defined in `improving-architecture` § Glossary, so answers compose with that skill's analysis. Ends with one of three explicit recommendations (proceed locally / widen the change and wait for approval / escalate to `/grill` or `/architecture`) — never silently expands scope. Slash command: `/zoom-out`.
+
+- `flow/improving-architecture` (reframed) — content unchanged; added a top-level **Cadence** section that positions the skill as a periodic anti-entropy ritual rather than a one-shot intervention. Recommended invocation points: every few working days on an active project, after every major feature merge, before a plan-heavy week, when `/zoom-out` repeatedly finds the same friction. Explicit rule that a clean run finding no candidates is a valid outcome — do not fabricate candidates to justify the ritual. Slash command: `/architecture` (new).
+
+- `skills/using-devstack` — slash-command table split into two sections: **Phase commands** (workflow spine, sequential, gated, do not skip) and **Sharpening commands** (cross-cutting, no gates, any phase). The split makes the architectural distinction visible to the agent on first read.
+
+- `commands/` — three new files (`grill.md`, `zoom-out.md`, `architecture.md`), each forwarding to its skill and restating the load-bearing discipline.
+
+- `CREDITS.md` — `improving-architecture` row annotated with v0.11 framing change; two new rows added for `challenging-plans` (flow/) and `zooming-out` (core/).
+
+### Notes
+
+No skill name changes for existing skills. No profile schema changes. No breaking changes. Skills validation unaffected. Profiles (`nextjs.json` / `django.json` / `vue.json` / `spring.json`) intentionally do **not** list the three new sharpening skills in their `flow` / `core` arrays — same pattern as the existing `improving-architecture` skill, since these are on-demand utility skills invoked by name or slash command, not part of the automatic per-implementation skill set.
+
 ## [0.10.0] — 2026-05-14
 
 ### Added — aesthetic-direction discipline for greenfield UI

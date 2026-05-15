@@ -57,12 +57,18 @@ Install as a Claude Code plugin:
 Then in any session:
 
 ```bash
+# Phase commands (workflow spine — sequential, gated)
 /devstack         # introduction to the three layers
 /brainstorm       # start a new feature — refine idea into spec
 /plan             # turn spec into bite-sized task list
 /work             # execute the plan with subagent-driven development
 /review           # five-axis code review before merge
 /ship             # pre-launch checklist and deploy
+
+# Sharpening commands (cross-cutting tools — fire any time)
+/grill            # adversarially stress-test an existing plan, spec, or decision
+/zoom-out         # escape tunnel vision — explain code in system context
+/architecture     # periodic anti-entropy pass over the codebase
 ```
 
 For day-to-day small fixes, you don't need any slash command — the `core/` layer (TDD, debugging, verification) fires automatically.
@@ -76,6 +82,8 @@ Adding a new technology stack (iOS, Android, Rust, Go, …) means adding **`stan
 ---
 
 ## Status
+
+**v0.11.0 — sharpening commands (`/grill`, `/zoom-out`, `/architecture`)**. Three new cross-cutting entry points distinct from the phase spine. `flow/challenging-plans` adversarially stress-tests an existing artifact one question at a time, with inline CONTEXT.md / ADR updates. `core/zooming-out` escapes tunnel vision by answering four fixed questions about a pinned local view (callers, domain concept, deletion test, where decisions live). `flow/improving-architecture` reframed as a periodic anti-entropy ritual with explicit cadence guidance. See [CHANGELOG.md](CHANGELOG.md).
 
 **v0.5.0 — prototyping-with-html + brainstorming UI Gate** (32 `SKILL.md`, 6 slash commands, 3 agents, 4 reference checklists). For UI features, `flow/brainstorming` now hands off to a new `flow/prototyping-with-html` skill that produces a clickable hi-fi HTML prototype the user opens in a real browser and explicitly approves *before* the spec is written. The approved prototype becomes the spec's **Visual Contract** — spec prose no longer re-describes the UI, it points to the prototype path. See [CHANGELOG.md](CHANGELOG.md).
 

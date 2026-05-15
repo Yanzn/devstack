@@ -64,6 +64,8 @@ If the user says "don't use TDD here" and the TDD skill says "always TDD," follo
 
 These are the only formal entry points. Everything else is auto-discovery.
 
+**Phase commands** (the workflow spine — sequential, gated):
+
 | Command | Fires | When to use |
 |---|---|---|
 | `/devstack` | this skill | Orientation. First session, or when the user is lost. |
@@ -73,7 +75,17 @@ These are the only formal entry points. Everything else is auto-discovery.
 | `/review` | `flow/requesting-code-review` + `standards/code-review-and-quality` | Implementation done, want review before merge. |
 | `/ship` | `flow/finishing-a-development-branch` + `standards/shipping-and-launch` | Reviewed and ready to deploy. |
 
-Do **not** skip phases. Brainstorm before plan. Plan before work. Review before ship. Each skill HARD-GATEs the next.
+Do **not** skip phase commands. Brainstorm before plan. Plan before work. Review before ship. Each skill HARD-GATEs the next.
+
+**Sharpening commands** (cross-cutting tools — can fire at any phase):
+
+| Command | Fires | When to use |
+|---|---|---|
+| `/grill` | `flow/challenging-plans` | An existing artifact (spec, plan, ADR, in-flight choice) needs adversarial stress-testing before it's locked in. |
+| `/zoom-out` | `core/zooming-out` | You've been bouncing inside one file for too long; surface direct callers, domain concept, deletion test, and where related decisions live. |
+| `/architecture` | `flow/improving-architecture` | Periodic anti-entropy pass — surface deepening opportunities. Recommended every few working days or after a major feature merge. |
+
+Sharpening commands have no gates and no fixed order. Invoke them when the signal appears.
 
 **When NOT to use the full flow:**
 

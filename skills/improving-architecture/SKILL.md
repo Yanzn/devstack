@@ -1,18 +1,36 @@
 ---
 name: improving-architecture
-description: Find deepening opportunities in a codebase, informed by the domain language in CONTEXT.md and the decisions in docs/adr/. Use when the user wants to improve architecture, find refactoring opportunities, consolidate tightly-coupled modules, or make a codebase more testable and AI-navigable.
+description: "Find deepening opportunities in a codebase, informed by the domain language in CONTEXT.md and the decisions in docs/adr/. Use when the user wants to improve architecture, find refactoring opportunities, consolidate tightly-coupled modules, make a codebase more testable and AI-navigable, or run a periodic anti-entropy pass. Recommended cadence: every few working days for active projects, or after every major feature merge."
 ---
 
 <!--
 origin: [MP]
 sources:
   - mattpocock-skills:improve-codebase-architecture @ 2026-04-26
-notes: Direct graft from mattpocock/skills. Skill renamed `improve-codebase-architecture` → `improving-architecture` for devstack gerund convention. Cross-references to ../domain-model/* rewritten to ../domain-modeling/* (devstack name). Three-phase process (Explore → Present → Grilling) preserved verbatim. Companion files LANGUAGE.md, DEEPENING.md, INTERFACE-DESIGN.md grafted alongside.
+notes: |
+  Direct graft from mattpocock/skills. Skill renamed `improve-codebase-architecture` → `improving-architecture` for devstack gerund convention. Cross-references to ../domain-model/* rewritten to ../domain-modeling/* (devstack name). Three-phase process (Explore → Present → Grilling) preserved verbatim. Companion files LANGUAGE.md, DEEPENING.md, INTERFACE-DESIGN.md grafted alongside.
+
+  v0.11: framed as a periodic anti-entropy ritual rather than a one-shot intervention. Added "Cadence" section at top, slash-command entry point `/architecture`, and language tying the skill into devstack's broader rhythm (run after feature merges, before plan-heavy weeks). Inspired by MP's recommendation to "run this on your codebase once every few days" — no skill-content change, only framing.
 -->
 
 # Improving Architecture
 
 Surface architectural friction and propose **deepening opportunities** — refactors that turn shallow modules into deep ones. The aim is testability and AI-navigability.
+
+## Cadence
+
+This skill is most valuable when run **periodically**, not just when a refactor is forced on you. Agent-assisted codebases accumulate entropy faster than human-written ones: more code per unit time means more shallow modules, more inconsistent vocabulary, more half-finished seams. A short, regular ritual catches this before it compounds.
+
+Recommended invocation points:
+
+- **Every few working days** on an active project — a 15-minute pass to surface candidates, even if none are picked.
+- **After every major feature merge** — the codebase's shape just shifted; check whether the seams still hold.
+- **Before a plan-heavy week** — a clean architecture makes the upcoming plan smaller.
+- **When `/zoom-out` repeatedly finds the same friction** — that's a signal this skill is overdue.
+
+A periodic invocation that finds no candidates is still valuable — it's evidence the architecture is holding. Don't fabricate candidates to justify the ritual.
+
+Slash command: `/architecture`.
 
 ## Glossary
 
