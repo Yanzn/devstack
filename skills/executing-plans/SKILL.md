@@ -78,6 +78,14 @@ Wait for explicit "go" before starting the next batch. The checkpoint exists to 
 
 **Why the manifest matters:** the user needs to know what to install, set, or migrate before pulling your branch. A summary that says "added auth route" without naming the new `JWT_SECRET` env var or `pnpm add jose` dependency forces the user to read the diff to reproduce your environment. The manifest is the difference between a checkpoint the user can act on and one they have to investigate.
 
+**Persist before the checkpoint.** A checkpoint that lives only in this chat dies with the session. Before emitting the summary above, write the batch's progress into the plan file:
+
+- Check the completed tasks' boxes on disk (`- [ ]` → `- [x]`).
+- Append each completed task's entry to the plan's `## Execution Log` — commit SHA(s), one-line result, and the same delivery-manifest deltas reported above.
+- Commit the plan-file update.
+
+The conversational summary is for the human now; the Execution Log is for the next session. Write both. Full contract and the matching resume procedure: `devstack:resumable-execution`.
+
 ### Step 4: Request Code Review
 
 After every 2–3 batches, or at a major phase boundary:
@@ -128,6 +136,7 @@ Return to Step 1 (Review Plan) when:
 **Required workflow skills:**
 - `devstack:using-git-worktrees` — REQUIRED: isolated workspace before any task
 - `devstack:writing-plans` — creates the plan this skill executes
+- `devstack:resumable-execution` — persist each batch's progress into the plan's Execution Log; resume an interrupted run via `/resume`
 - `devstack:requesting-code-review` — dispatch review between batches
 - `devstack:finishing-a-development-branch` — complete development after all tasks
 

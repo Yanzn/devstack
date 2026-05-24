@@ -69,6 +69,9 @@ Then in any session:
 /grill            # adversarially stress-test an existing plan, spec, or decision
 /zoom-out         # escape tunnel vision — explain code in system context
 /architecture     # periodic anti-entropy pass over the codebase
+
+# Recovery (re-enter an interrupted run)
+/resume           # rebuild progress from the plan's Execution Log + git, then continue
 ```
 
 For day-to-day small fixes, you don't need any slash command — the `core/` layer (TDD, debugging, verification) fires automatically.
@@ -82,6 +85,8 @@ Adding a new technology stack (iOS, Android, Rust, Go, …) means adding **`stan
 ---
 
 ## Status
+
+**v0.12.0 — resumable execution (`/resume`)**. Execution progress now survives session end, context reset, and crashes. `flow/resumable-execution` makes the plan file the single durable source of execution state — task checkboxes checked on disk plus an Execution Log (commit SHAs, results, delivery-manifest deltas) appended to the plan. `/resume` rebuilds state by reducing the plan + git history into the next unfinished task. `flow/executing-plans` and `flow/subagent-driven-development` now persist after each batch/task instead of tracking progress only in ephemeral TodoWrite. Closes the durability gap found by auditing devstack's execution loop against [12-factor-agents](https://github.com/humanlayer/12-factor-agents) (factors 5/6/12). See [CHANGELOG.md](CHANGELOG.md).
 
 **v0.11.0 — sharpening commands (`/grill`, `/zoom-out`, `/architecture`)**. Three new cross-cutting entry points distinct from the phase spine. `flow/challenging-plans` adversarially stress-tests an existing artifact one question at a time, with inline CONTEXT.md / ADR updates. `core/zooming-out` escapes tunnel vision by answering four fixed questions about a pinned local view (callers, domain concept, deletion test, where decisions live). `flow/improving-architecture` reframed as a periodic anti-entropy ritual with explicit cadence guidance. See [CHANGELOG.md](CHANGELOG.md).
 

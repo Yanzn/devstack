@@ -256,6 +256,22 @@ End the plan with:
 - <Question needing human input before Phase N>
 ```
 
+## Execution Log Stub
+
+Every plan ends with an **empty** Execution Log. The planner leaves it empty; the executor fills it during implementation (see `devstack:resumable-execution`). Include this block at the very end of the plan, after Open Questions:
+
+````markdown
+## Execution Log
+
+> Maintained by the executor (`devstack:resumable-execution`), not the planner.
+> Records per-task completion — commit SHAs, one-line result, delivery-manifest
+> deltas — so work survives session end / context reset and resumes via `/resume`.
+
+_Empty until execution begins._
+````
+
+This is the durable home for execution state. The executor checks off the task/step boxes above on disk and appends to this log after each task, so a dead session never loses the thread.
+
 ## No Placeholders
 
 Every step must contain the actual content an engineer needs. These are **plan failures** — never write them:
@@ -338,6 +354,7 @@ Before handing off to execution:
 - [ ] Task dependencies are ordered correctly
 - [ ] No task is **L** or larger
 - [ ] Checkpoints exist between phases
+- [ ] Plan ends with an empty `## Execution Log` stub
 - [ ] Spec coverage checked — no gaps
 - [ ] Plan is committed to git
 - [ ] Human partner has reviewed and approved the plan

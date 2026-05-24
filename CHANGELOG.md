@@ -5,6 +5,24 @@ All notable changes to devstack will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.12.0] — 2026-05-24
+
+### Added — resumable execution (`/resume`)
+
+Execution progress now survives interruption — session end, context reset, or crash. This closes the one structural gap found by auditing devstack's own execution loop against [12-factor-agents](https://github.com/humanlayer/12-factor-agents): progress lived only in ephemeral TodoWrite + conversation context, so a dead session lost the thread. The fix applies factors 5 (unify execution + business state), 6 (launch/pause/resume), and 12 (stateless reducer) to devstack itself — without inventing a separate state store.
+
+- `flow/resumable-execution` (new) — makes the plan file the single durable source of execution state. Two artifacts, both inside the plan: task/step checkboxes checked **on disk** (`- [ ]` → `- [x]`), and an `## Execution Log` appended to the plan with a per-task entry (commit SHAs, one-line result, and delivery-manifest deltas — new files / deps / env vars / migrations). Defines the resume procedure as a pure reduction of `(plan + git) → next task`: locate plan, parse checkboxes + log, reconcile against `git log` / `git status` (surface any discrepancy, never guess), restore the worktree, rebuild TodoWrite, continue at the first unfinished task. Never re-runs a task already marked done. Absorbs the delivery manifest that `executing-plans` v0.8 emitted only conversationally, persisting it into the log instead. Provenance `[NEW]`, inspired by 12-factor-agents (factors 5/6/12) and gstack's `checkpoint` (conceptual sibling, not a port).
+- `flow/writing-plans` — every plan now ends with an empty `## Execution Log` stub, the durable home the executor fills during implementation. New verification bullet.
+- `flow/executing-plans` — added a "Persist before the checkpoint" step: check completed tasks' boxes on disk and append their Execution Log entries (with the manifest) before emitting the conversational checkpoint summary. The chat summary is for the human now; the log is for the next session.
+- `flow/subagent-driven-development` — added a "Persisting Progress" section: the orchestrator (never the subagent) checks boxes on disk and writes the Execution Log entry after each task's two-stage review, before dispatching the next implementer. New red flag against TodoWrite-only progress.
+- `skills/using-devstack` — slash-command reference gains a **Recovery command** entry (`/resume`), kept distinct from both the gated phase spine and the no-gate sharpening commands. Terminal States section notes that an interrupted run re-enters via `/resume`.
+- `commands/resume.md` (new) — forwards to `flow/resumable-execution` and restates the reconcile-before-continue discipline.
+- `CREDITS.md` — new flow-section row for `resumable-execution`.
+
+### Notes
+
+No skill name changes for existing skills. No profile schema changes. No breaking changes. Profiles (`nextjs.json` / `django.json` / `vue.json` / `spring.json`) intentionally do **not** list `resumable-execution` in their `flow` arrays — same pattern as the sharpening skills: it's invoked transitively by `executing-plans` / `subagent-driven-development` during execution and on demand via `/resume`, not part of the automatic per-implementation skill set.
+
 ## [0.11.0] — 2026-05-15
 
 ### Added — sharpening commands (`/grill`, `/zoom-out`, `/architecture`)

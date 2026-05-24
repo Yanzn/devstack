@@ -36,6 +36,7 @@ Legend:
 | `writing-plans` | [SP+AS+KS] — Superpowers writing-plans + agent-skills planning-and-task-breakdown + karpathy-skills Principle 4 (instruction→goal framing) |
 | `executing-plans` | [SP] — v0.8 added conditional delivery-manifest to Step 3 checkpoint, no-upstream (inspired by awesome-llm-apps `fullstack-developer` Output Format) |
 | `subagent-driven-development` | [SP] |
+| `resumable-execution` | [NEW] — original to devstack; closes the durability gap found by auditing devstack's execution loop against [12-factor-agents](https://github.com/humanlayer/12-factor-agents) factors 5 (unify execution + business state), 6 (launch/pause/resume), 12 (stateless reducer). Plan file = single durable execution state (on-disk checkboxes + Execution Log); `/resume` reduces (plan + git) → next task. Absorbs the executing-plans v0.8 delivery manifest into the persisted log. New in v0.12 |
 | `dispatching-parallel-agents` | [SP+MP] — SP base port + MP "Design It Twice" pattern grafted as a named application |
 | `using-git-worktrees` | [SP] |
 | `requesting-code-review` | [SP] |

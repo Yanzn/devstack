@@ -87,6 +87,12 @@ Do **not** skip phase commands. Brainstorm before plan. Plan before work. Review
 
 Sharpening commands have no gates and no fixed order. Invoke them when the signal appears.
 
+**Recovery command** (re-enter an interrupted run — no gate, fires on the signal):
+
+| Command | Fires | When to use |
+|---|---|---|
+| `/resume` | `flow/resumable-execution` | A plan execution was interrupted — session ended, context reset, or crash. Rebuilds progress from the plan's Execution Log + git, then continues from the next unfinished task. |
+
 **When NOT to use the full flow:**
 
 - Single-file fix: skip straight to implementation. `core/` skills fire automatically.
@@ -187,6 +193,8 @@ Every flow skill has a defined exit. For example:
 - `flow/prototyping-with-html` exits by handing the approved prototype path + Visual Contract note back to `flow/brainstorming`.
 - `flow/writing-plans` exits by invoking `flow/subagent-driven-development` or `flow/executing-plans`.
 - `flow/work` exits by invoking `flow/requesting-code-review`.
+
+If a run is interrupted before its terminal state, `/resume` (`flow/resumable-execution`) re-enters it: read the plan's Execution Log, reconcile against git, continue from the next unfinished task.
 
 Stay in the skill's defined terminal state. Don't jump to an unrelated skill mid-phase.
 

@@ -134,6 +134,16 @@ Use the templates in this skill's directory:
 - `./spec-reviewer-prompt.md` — dispatch spec compliance reviewer
 - `./code-quality-reviewer-prompt.md` — dispatch code quality reviewer
 
+## Persisting Progress
+
+TodoWrite is ephemeral — it dies with the session. After each task is marked complete in TodoWrite, the orchestrator (you, not the subagent) also persists it to the plan file:
+
+- Check the task's boxes on disk (`- [ ]` → `- [x]`).
+- Append the task's entry to the plan's `## Execution Log` — commit SHA(s), one-line result, and delivery-manifest deltas (new files / deps / env vars / migrations).
+- Do this before dispatching the next implementer.
+
+Subagents never touch the plan file — they receive task text, not the plan (see Red Flags). Only the orchestrator persists. This is what lets `/resume` rebuild exactly where you stopped after a session ends or the context resets. Full contract: `devstack:resumable-execution`.
+
 ## Red Flags
 
 **Never:**
@@ -142,6 +152,7 @@ Use the templates in this skill's directory:
 - Proceed with unfixed issues
 - Dispatch multiple implementation subagents in parallel (conflicts)
 - Make subagent read the plan file — provide full task text instead
+- Track progress only in TodoWrite — persist each completed task to the plan's Execution Log (`devstack:resumable-execution`), or a dead session loses the thread
 - Skip scene-setting context (subagent needs to know where the task fits)
 - Ignore subagent questions — answer before they proceed
 - Accept "close enough" on spec compliance
@@ -161,6 +172,7 @@ Use the templates in this skill's directory:
 **Required workflow skills:**
 - `devstack:using-git-worktrees` — REQUIRED: isolated workspace before starting
 - `devstack:writing-plans` — creates the plan this skill executes
+- `devstack:resumable-execution` — persist each completed task into the plan's Execution Log; resume an interrupted run via `/resume`
 - `devstack:requesting-code-review` — the final code-reviewer subagent after all tasks
 - `devstack:finishing-a-development-branch` — complete development after all tasks
 

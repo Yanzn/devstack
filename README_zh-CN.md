@@ -69,6 +69,9 @@ devstack 不是一个加载器或绑定器。它是一个**全新、独立的项
 /grill            # 对既有规格/计划/决策做对抗式拷问
 /zoom-out         # 跳出隧道视野 —— 把代码放回系统语境
 /architecture     # 周期性架构抗熵 pass
+
+# 恢复（重入被中断的执行）
+/resume           # 从计划的 Execution Log + git 重建进度，继续未完成任务
 ```
 
 日常小修小补不需要任何 slash 命令 —— `core/` 层（TDD、调试、验证）会自动生效。
@@ -140,6 +143,8 @@ devstack 的核心判断：**两者正交，应该叠加使用**。
 ---
 
 ## 当前状态
+
+**v0.12.0 — 可恢复执行（`/resume`）**。执行进度现在能挺过会话结束、上下文重置和崩溃。`flow/resumable-execution` 让计划文件成为执行状态的唯一持久来源 —— 任务复选框勾在磁盘上，外加追加到计划尾部的 Execution Log（commit SHA、结果、交付清单增量）。`/resume` 通过把「计划 + git 历史」归约为下一个未完成任务来重建状态。`flow/executing-plans` 和 `flow/subagent-driven-development` 现在每批次/每任务后持久化，不再只靠易失的 TodoWrite 记进度。这填补了将 devstack 执行循环对照 [12-factor-agents](https://github.com/humanlayer/12-factor-agents)（factor 5/6/12）审计时发现的持久化缺口。详见 [CHANGELOG.md](CHANGELOG.md)。
 
 **v0.11.0 — 磨刀命令（`/grill`、`/zoom-out`、`/architecture`）**。三条跨切入口，与阶段骨架解耦。`flow/challenging-plans` 对既有制品（spec / plan / ADR / 在飞决策）逐题对抗拷问，CONTEXT.md / ADR 边谈边写。`core/zooming-out` 用四个固定问题（直接调用方、领域概念、删除测试、决策落点）跳出隧道视野。`flow/improving-architecture` 重新定位为周期性架构抗熵仪式，给出明确节奏建议。详见 [CHANGELOG.md](CHANGELOG.md)。
 
