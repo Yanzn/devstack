@@ -45,21 +45,21 @@ Just describe the fix. `core/` skills (TDD, debugging, verification) fire automa
 
 ### Medium change (a few files, clear requirements)
 
-Start with `/plan`. Skip `/brainstorm` if the spec is already obvious. The plan becomes bite-sized tasks. Then `/work` to execute.
+`/brainstorm` to clarify the requirement and write a spec, then `/work` directly — **skip `/plan`**. `/work` runs the lightweight in-session path (incremental implementation + TDD) against the spec. If the requirement is already obvious, you can skip `/brainstorm` too and start at `/work` (or `/plan` if it's complex enough to warrant a task graph).
 
 ### Large change (new feature, new subsystem, architectural)
 
 Full flow:
 
 ```bash
-/brainstorm   # refine idea into spec, get approval, save to docs/devstack/specs/
+/brainstorm   # clarify idea into spec (grill + optional UI prototype), save to docs/devstack/specs/
 /plan         # turn spec into plan with exact tasks, save to docs/devstack/plans/
 /work         # subagent-driven execution with two-stage review per task
 /review       # five-axis review across the diff before merge
 /ship         # pre-launch checklist + merge or PR
 ```
 
-Every step has a HARD-GATE — you can't skip ahead until the current phase is validated.
+`/brainstorm` and `/review` are HARD-GATEs — no code without an approved spec, no ship without review. `/plan` is **optional and decoupled from `/work`**: it earns its keep on complex work, but simple work goes `/brainstorm` → `/work` directly. Match the ceremony to the size of the change.
 
 ## When Things Go Wrong
 

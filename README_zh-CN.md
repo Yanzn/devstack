@@ -10,9 +10,9 @@
 
 devstack 把"资深工程师的做事方式"打包成一整套可执行的工作流，让 AI 编码智能体按照专业标准产出代码：
 
-1. **先想清楚再动手** — 把模糊的想法提炼成书面规格，拿到用户批准
-2. **拆成小任务再执行** — 每一步都有明确文件、完整代码、验收标准
-3. **严格纪律执行** — 每个任务派独立 subagent，两阶段 review，TDD 全程
+1. **先想清楚再动手** — 把模糊的想法理清成书面规格，拿到用户批准
+2. **需要时才做计划** — 复杂活拆成小任务计划（明确文件、完整代码、验收标准）；简单活跳过计划，直接执行
+3. **严格纪律执行** — 计划走每任务独立 subagent + 两阶段 review，纯 spec 走轻量 TDD
 4. **按规范 review** — 五轴评审、安全、性能、无障碍全面覆盖
 5. **稳妥发布** — 上线前清单、功能开关、回滚方案
 
@@ -57,11 +57,11 @@ devstack 不是一个加载器或绑定器。它是一个**全新、独立的项
 在任何会话里：
 
 ```bash
-# 阶段命令（工作流骨架 —— 顺序、带闸）
+# 阶段命令（工作流骨架 —— brainstorm/review/ship 带闸，plan 可选）
 /devstack         # 了解三层模型
-/brainstorm       # 开启新功能 —— 把想法打磨成规格
-/plan             # 把规格拆成小任务列表
-/work             # 用 subagent 驱动模式执行
+/brainstorm       # 开启新功能 —— 把想法拷打成规格（grill + 可选 UI 原型）
+/plan             # （可选）把规格拆成小任务列表 —— 复杂活才需要
+/work             # 执行计划（subagent 驱动）或直接执行规格（轻量 TDD）
 /review           # 合并前五轴代码 review
 /ship             # 上线前清单 + 部署
 
@@ -84,23 +84,23 @@ devstack 不是一个加载器或绑定器。它是一个**全新、独立的项
 
 直接描述要改什么。`core/` 自动触发，不走任何流程，零额外开销。
 
-### 中等改动（几个文件，需求清晰）
+### 中等改动（需求清晰但简单）
 
-从 `/plan` 开始，跳过 `/brainstorm`。规划→执行。
+`/brainstorm` 把需求拷打清楚、写出 spec，然后直接 `/work` 执行 —— **跳过 `/plan`**。会话内 `incremental-implementation` + TDD 增量实现。需求已经很明确时，也可以跳过 `/brainstorm` 直接从 `/plan` 或 `/work` 开始。
 
 ### 大改动（新功能、架构变更）
 
 完整流程：
 
 ```bash
-/brainstorm   # 打磨规格，拿到批准，存到 docs/devstack/specs/
-/plan         # 规格拆成精确任务，存到 docs/devstack/plans/
+/brainstorm   # 拷打理清需求，拿到批准的 spec，存到 docs/devstack/specs/
+/plan         # （复杂活才需要）规格拆成精确任务，存到 docs/devstack/plans/
 /work         # subagent 驱动执行，每任务两阶段 review
 /review       # 全量 diff 五轴 review
 /ship         # 上线前清单 + 合并或 PR
 ```
 
-每个阶段都有硬闸（HARD-GATE），不能跳过上一阶段的验收就往下走。
+`/brainstorm` 和 `/review` 是硬闸（HARD-GATE）—— spec 没批准不写码，没 review 不上线。但 **`/plan` 是可选的、和 `/work` 解耦**：复杂活走 brainstorm→plan→work，简单活走 brainstorm→work。开销匹配活的大小。
 
 ---
 
@@ -143,6 +143,8 @@ devstack 的核心判断：**两者正交，应该叠加使用**。
 ---
 
 ## 当前状态
+
+**v0.13.0 — 流程解耦 + 需求优先的 brainstorming**。`/work` 不再强制要 plan：有 plan 时照旧走 subagent 逐任务执行；只有批准的 spec 时走轻量会话内路径（`incremental-implementation` + TDD）。`/plan` 明确变为可选 —— 复杂活走 `/brainstorm` → `/plan` → `/work`，简单活走 `/brainstorm` → `/work`。`flow/brainstorming` 重新定位为以**理清需求**为核心，两个可互换的工具：对抗式**拷打**（现在是 clarify 步的主引擎，强度随复杂度缩放）和**可选**的 HTML 原型（从 spec 前硬门禁降级为用户自选的澄清辅助 —— 一旦做了仍是 UI 的事实来源）。详见 [CHANGELOG.md](CHANGELOG.md)。
 
 **v0.12.0 — 可恢复执行（`/resume`）**。执行进度现在能挺过会话结束、上下文重置和崩溃。`flow/resumable-execution` 让计划文件成为执行状态的唯一持久来源 —— 任务复选框勾在磁盘上，外加追加到计划尾部的 Execution Log（commit SHA、结果、交付清单增量）。`/resume` 通过把「计划 + git 历史」归约为下一个未完成任务来重建状态。`flow/executing-plans` 和 `flow/subagent-driven-development` 现在每批次/每任务后持久化，不再只靠易失的 TodoWrite 记进度。这填补了将 devstack 执行循环对照 [12-factor-agents](https://github.com/humanlayer/12-factor-agents)（factor 5/6/12）审计时发现的持久化缺口。详见 [CHANGELOG.md](CHANGELOG.md)。
 

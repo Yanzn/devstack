@@ -69,13 +69,13 @@ These are the only formal entry points. Everything else is auto-discovery.
 | Command | Fires | When to use |
 |---|---|---|
 | `/devstack` | this skill | Orientation. First session, or when the user is lost. |
-| `/brainstorm` | `flow/brainstorming` | Rough idea, needs to become a written spec. New feature, architectural change. |
-| `/plan` | `flow/writing-plans` | Spec exists (approved), need a task-by-task plan. |
-| `/work` | `flow/subagent-driven-development` | Plan exists, ready to execute. |
+| `/brainstorm` | `flow/brainstorming` | Rough idea, needs clarifying into a written spec. New feature, architectural change. |
+| `/plan` | `flow/writing-plans` | **Optional.** Approved spec exists and the work is complex enough to need a task-by-task plan. Skip for simple work. |
+| `/work` | `flow/subagent-driven-development` (plan) or lightweight TDD (spec only) | A plan **or** an approved spec exists, ready to execute. |
 | `/review` | `flow/requesting-code-review` + `standards/code-review-and-quality` | Implementation done, want review before merge. |
 | `/ship` | `flow/finishing-a-development-branch` + `standards/shipping-and-launch` | Reviewed and ready to deploy. |
 
-Do **not** skip phase commands. Brainstorm before plan. Plan before work. Review before ship. Each skill HARD-GATEs the next.
+Brainstorm comes first; review before ship — those gates hold. **The plan is optional and decoupled from work:** complex work goes `/brainstorm` → `/plan` → `/work`; simple, self-contained work goes `/brainstorm` → `/work` directly (no plan). Match the ceremony to the work — a full plan for a one-file change is doing the work twice.
 
 **Sharpening commands** (cross-cutting tools — can fire at any phase):
 
@@ -96,7 +96,8 @@ Sharpening commands have no gates and no fixed order. Invoke them when the signa
 **When NOT to use the full flow:**
 
 - Single-file fix: skip straight to implementation. `core/` skills fire automatically.
-- Obvious requirement: skip `/brainstorm`, start at `/plan`.
+- Obvious requirement: skip `/brainstorm`, start at `/plan` (or `/work` if it's also simple).
+- Simple feature with an approved spec: skip `/plan`, run `/work` directly — a plan you'd execute yourself in one session is doing the work twice.
 - Unreviewed prototype code being thrown away: skip `/review`, `/ship` — the user will tell you.
 
 ## When Each Layer Activates
@@ -189,10 +190,10 @@ When a skill provides a checklist or numbered process, **create a TodoWrite task
 
 Every flow skill has a defined exit. For example:
 
-- `flow/brainstorming` exits by invoking `flow/writing-plans`. For UI features it first detours through `flow/prototyping-with-html` (clickable HTML prototype as the visual contract), then comes back to write the spec.
+- `flow/brainstorming` exits by branching on complexity: `flow/writing-plans` for complex work, or straight to `/work` (lightweight in-session execution) for simple, self-contained work. For UI requirements it may optionally detour through `flow/prototyping-with-html` (user opts in) for a clickable prototype as the visual contract, then comes back to write the spec.
 - `flow/prototyping-with-html` exits by handing the approved prototype path + Visual Contract note back to `flow/brainstorming`.
 - `flow/writing-plans` exits by invoking `flow/subagent-driven-development` or `flow/executing-plans`.
-- `flow/work` exits by invoking `flow/requesting-code-review`.
+- `/work` exits by invoking `flow/requesting-code-review` then `flow/finishing-a-development-branch` — whether it ran from a plan (subagent-driven) or a spec (lightweight TDD).
 
 If a run is interrupted before its terminal state, `/resume` (`flow/resumable-execution`) re-enters it: read the plan's Execution Log, reconcile against git, continue from the next unfinished task.
 

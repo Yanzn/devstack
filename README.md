@@ -10,9 +10,9 @@
 
 devstack packages a complete, working methodology for getting AI coding agents to build software the way senior engineers build software:
 
-1. **Think before you code** — refine rough ideas into a written spec, get approval.
-2. **Plan in bite-sized tasks** — every step has exact files, exact code, exact verification.
-3. **Execute with discipline** — fresh subagent per task, two-stage review, TDD always.
+1. **Think before you code** — clarify rough ideas into a written spec, get approval.
+2. **Plan when the work needs it** — complex work gets a bite-sized task plan (exact files, code, verification); simple work skips straight to execution.
+3. **Execute with discipline** — fresh subagent per task with two-stage review for plans, lightweight TDD for spec-only work.
 4. **Review against standards** — five-axis code review, security, performance, a11y.
 5. **Ship with confidence** — pre-launch checklists, feature flags, rollback plans.
 
@@ -57,11 +57,11 @@ Install as a Claude Code plugin:
 Then in any session:
 
 ```bash
-# Phase commands (workflow spine — sequential, gated)
+# Phase commands (workflow spine — brainstorm/review/ship gated, plan optional)
 /devstack         # introduction to the three layers
-/brainstorm       # start a new feature — refine idea into spec
-/plan             # turn spec into bite-sized task list
-/work             # execute the plan with subagent-driven development
+/brainstorm       # start a new feature — clarify idea into spec (grill + optional UI prototype)
+/plan             # (optional) turn spec into bite-sized task list — for complex work
+/work             # execute a plan (subagent-driven) or a spec directly (lightweight TDD)
 /review           # five-axis code review before merge
 /ship             # pre-launch checklist and deploy
 
@@ -85,6 +85,8 @@ Adding a new technology stack (iOS, Android, Rust, Go, …) means adding **`stan
 ---
 
 ## Status
+
+**v0.13.0 — decoupled flow + requirement-first brainstorming**. `/work` no longer requires a plan: with a plan it runs subagent-driven per-task execution as before; with only an approved spec it runs a lightweight in-session path (`incremental-implementation` + TDD). `/plan` is now explicitly optional — complex work goes `/brainstorm` → `/plan` → `/work`, simple work goes `/brainstorm` → `/work`. `flow/brainstorming` was reframed around **clarifying the requirement** as the job, with two interchangeable tools: adversarial **grilling** (now the core of the clarify step, scaled to complexity) and an **optional** HTML prototype (demoted from a hard pre-spec gate to a user-opted-in clarification aid — when built it stays the UI source of truth). See [CHANGELOG.md](CHANGELOG.md).
 
 **v0.12.0 — resumable execution (`/resume`)**. Execution progress now survives session end, context reset, and crashes. `flow/resumable-execution` makes the plan file the single durable source of execution state — task checkboxes checked on disk plus an Execution Log (commit SHAs, results, delivery-manifest deltas) appended to the plan. `/resume` rebuilds state by reducing the plan + git history into the next unfinished task. `flow/executing-plans` and `flow/subagent-driven-development` now persist after each batch/task instead of tracking progress only in ephemeral TodoWrite. Closes the durability gap found by auditing devstack's execution loop against [12-factor-agents](https://github.com/humanlayer/12-factor-agents) (factors 5/6/12). See [CHANGELOG.md](CHANGELOG.md).
 

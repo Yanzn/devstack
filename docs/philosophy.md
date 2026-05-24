@@ -35,10 +35,10 @@ Swap a layer, the other two keep working. Add iOS skills to `standards/` without
 ## 4. Small tasks don't deserve ceremony. Big tasks demand it.
 
 - **Small**: fix a typo, rename a variable, adjust a config. The `core/` layer runs automatically (TDD when adding behavior, verification before claiming done). Nothing else fires. No brainstorming, no plan, no formal review.
-- **Medium**: a feature touching a few files. The flow starts at `/plan` (skip brainstorm if requirements are already clear).
+- **Medium**: a feature touching a few files. `/brainstorm` to clarify the requirement and write a spec, then `/work` directly — **the plan is ceremony you skip here**. (Skip `/brainstorm` too if requirements are already obvious.)
 - **Large**: a new feature, a subsystem, anything spanning modules or teams. Full flow: `/brainstorm` → `/plan` → `/work` → `/review` → `/ship`.
 
-You choose the entry point. The skills don't force a larger-than-needed ceremony, but once inside a phase, they are strict about finishing it properly.
+You choose the entry point. The plan is optional and decoupled from work — it's the one phase that scales in or out with the size of the change. The skills don't force a larger-than-needed ceremony, but once inside a phase, they are strict about finishing it properly.
 
 ## 5. Evidence beats claims
 

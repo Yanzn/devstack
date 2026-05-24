@@ -31,8 +31,8 @@ Legend:
 
 | Skill | Source |
 |---|---|
-| `brainstorming` | [SP+AS] — Superpowers brainstorming + agent-skills idea-refine + spec-driven-development; v0.5 added UI Gate handoff to `prototyping-with-html` and Visual Contract spec section |
-| `prototyping-with-html` | [NEW] — original to devstack; inspired by gstack's `design-shotgun` / `frontend-design` / `design-html` (clickable hi-fi HTML prototype as the visual contract before spec); v0.10 added aesthetic-direction gate as Process step 4 (defers full guidance to `frontend-ui-engineering` § Aesthetic Direction (Greenfield); inspired by anthropics/skills `frontend-design`) |
+| `brainstorming` | [SP+AS] — Superpowers brainstorming + agent-skills idea-refine + spec-driven-development; v0.5 added UI Gate handoff to `prototyping-with-html` and Visual Contract spec section; v0.13 reframed around requirement clarification (grilling as the core clarify engine + optional prototype), grilling discipline borrowed from `challenging-plans`, terminal state branched to `/plan` (complex) or `/work` (simple) |
+| `prototyping-with-html` | [NEW] — original to devstack; inspired by gstack's `design-shotgun` / `frontend-design` / `design-html` (clickable hi-fi HTML prototype as the visual contract before spec); v0.10 added aesthetic-direction gate as Process step 4 (defers full guidance to `frontend-ui-engineering` § Aesthetic Direction (Greenfield); inspired by anthropics/skills `frontend-design`); v0.13 demoted from a hard pre-spec UI gate to an optional, user-opted-in clarification aid (still the UI source of truth when built) |
 | `writing-plans` | [SP+AS+KS] — Superpowers writing-plans + agent-skills planning-and-task-breakdown + karpathy-skills Principle 4 (instruction→goal framing) |
 | `executing-plans` | [SP] — v0.8 added conditional delivery-manifest to Step 3 checkpoint, no-upstream (inspired by awesome-llm-apps `fullstack-developer` Output Format) |
 | `subagent-driven-development` | [SP] |
@@ -102,7 +102,7 @@ devstack follows Superpowers' "commands are thin shells over skills" pattern:
 | `/devstack` | `using-devstack` skill |
 | `/brainstorm` | `flow/brainstorming` skill |
 | `/plan` | `flow/writing-plans` skill |
-| `/work` | `flow/subagent-driven-development` (primary) or `executing-plans` skill |
+| `/work` | with a plan: `flow/subagent-driven-development` (primary) or `executing-plans`; with only a spec: lightweight `core/incremental-implementation` + `core/test-driven-development` |
 | `/review` | `flow/requesting-code-review` + `standards/code-review-and-quality` |
 | `/ship` | `flow/finishing-a-development-branch` + `standards/shipping-and-launch` |
 

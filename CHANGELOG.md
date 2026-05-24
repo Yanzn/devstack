@@ -5,6 +5,25 @@ All notable changes to devstack will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.13.0] — 2026-05-24
+
+### Changed — decoupled flow (`/work` no longer requires a plan) + requirement-first brainstorming
+
+Real-world use surfaced over-coupling in the phase spine: simple tasks don't need the full `spec → plan → work` ceremony, but `/work` hard-required a plan file. This release decouples the phases and reframes brainstorming around clarifying the requirement — the highest-leverage step — with the UI prototype demoted from a mandatory gate to an optional tool.
+
+- `commands/work.md` — **decoupled from `/plan`.** `/work` now routes by what exists: a plan → `subagent-driven-development` (per-task, two-stage review, unchanged); only an approved spec → a **lightweight in-session path** (`incremental-implementation` + `test-driven-development`, no task graph), for small self-contained work. Both paths end at `requesting-code-review` → `finishing-a-development-branch`. If a spec-only run turns out large, it stops and routes to `/plan`. The lightweight path also **drops the worktree requirement** (optional — a feature branch in the current checkout is enough; never land on `main` without consent), keeping it genuinely low-ceremony; the plan path still wants an isolated worktree for subagent execution. No new skill — the lightweight path reuses existing core skills.
+- `flow/brainstorming` — **reframed around requirement clarification as the job**, with two interchangeable clarification tools: adversarial **grilling** (verbal) and the HTML **prototype** (visual, optional). The old socratic "Ask clarifying questions" step is now "Clarify the Requirement — Grill It": one question per turn each with a recommended answer, probing boundaries / failure modes / reversibility (discipline borrowed from `challenging-plans`), explicitly **scaled to complexity** so trivial requests aren't ground through a full decision tree. Terminal state changed from "always `writing-plans`" to a **branch**: `/plan` for complex work, straight to `/work` for simple work — with an Implementation Handoff section that asks the user which and recommends one. New key principle "Plan is optional, spec is not"; red flags updated.
+- `flow/brainstorming` UI gate — **demoted from HARD gate to optional offer.** The old v0.5 "does this have a UI surface? → must prototype before spec" gate is now step 6 "Optional — Prototype the Visuals": brainstorming *offers* a prototype when the visual decisions are the hard part; the **user opts in**. If built, the prototype stays the UI source of truth (spec references it, no prose re-description) — the good part of v0.5 is preserved. If declined or trivial, the spec captures the UI in prose. Spec template's `## Visual Contract` is now conditional ("include only if a prototype was built"); the `## Architecture` note covers both prototype and prose-UI cases.
+- `flow/prototyping-with-html` — softened to match: description and "When to Use" reframed as an **optional, opt-in** clarification aid (a tool, not a gate); the HARD-GATE now applies only *once the user opts into a prototype* (don't lock visuals until explicit written approval), and explicitly notes it doesn't apply when no prototype is requested. Body (hi-fi standards, mock data, aesthetic direction, browser preview, feedback loop, Visual Contract handoff) unchanged.
+- `flow/challenging-plans` — cross-reference to `brainstorming` sharpened: brainstorming's clarify step is the *forward* form of this grilling (interrogating a requirement into existence); `/grill` is the *adversarial* form against an existing artifact. Same discipline, different moment.
+- `commands/brainstorm.md` — terminal-state language updated to the `/plan`-or-`/work` branch; grilling + optional-prototype framing added.
+- `commands/plan.md` — marked **optional**; states when a plan earns its keep vs. when to skip straight to `/work`.
+- `skills/using-devstack` — slash-command table updated (`/plan` marked optional, `/work` notes plan-or-spec). "Do not skip phase commands" replaced with "plan is optional and decoupled from work" (brainstorm/review/ship gates still hold). New "When NOT to use the full flow" bullet for spec-only direct work. Terminal States section updated for the brainstorming branch and the dual-path `/work` exit.
+
+### Notes
+
+No new skills, no skill renames, no profile schema changes. The lightweight `/work` path is composed from existing `core/` skills (`incremental-implementation`, `test-driven-development`, `verification-before-completion`), so profiles need no changes. **Behavior change worth calling out:** `/work` against a bare spec (no plan) is now valid where it previously expected a plan; and brainstorming will no longer force a prototype for every UI feature — it offers one.
+
 ## [0.12.0] — 2026-05-24
 
 ### Added — resumable execution (`/resume`)

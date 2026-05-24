@@ -1,6 +1,6 @@
 ---
 name: prototyping-with-html
-description: "Use when brainstorming a UI feature — turns the discussed design into a clickable hi-fi HTML prototype the user can open in a browser, then iterates until the user approves the prototype as the visual contract for the spec. UI-only; non-UI work skips this skill."
+description: "Optional clarification aid offered by brainstorming when a requirement has a visible UI and the user opts in — turns the discussed design into a clickable hi-fi HTML prototype the user opens in a browser, iterates on, and approves as the visual contract for the spec. UI-only; skipped when the user declines or the feature has no visible surface."
 ---
 
 <!--
@@ -33,19 +33,21 @@ notes: |
 Turn an in-progress UI design into a clickable, hi-fi HTML prototype that the user opens in a real browser, interacts with, and approves. The approved prototype becomes the **visual contract** the spec references — not a paragraph of UI prose.
 
 <HARD-GATE>
-For UI features, do NOT write the spec's UI description, jump to writing-plans, or scaffold any production code until the user has opened the prototype in a browser AND approved it in writing. "Approval" means an explicit "looks good / ship it / approved" — not silence and not "looks OK, but…". If the user requests changes, iterate the prototype and ask again.
+Once the user opts into a prototype, do NOT write the spec's UI description, hand off to the next phase, or scaffold any production code until the user has opened the prototype in a browser AND approved it in writing. "Approval" means an explicit "looks good / ship it / approved" — not silence and not "looks OK, but…". If the user requests changes, iterate the prototype and ask again. (If the user never opts into a prototype, this gate doesn't apply — brainstorming captures the UI in spec prose instead.)
 </HARD-GATE>
 
 ## When to Use
 
-Invoked by `devstack:brainstorming` when the feature has a **visible end-user surface**:
+**Offered** by `devstack:brainstorming` as an **optional** clarification aid when the requirement has a **visible end-user surface** and the user opts in:
 
 - Web pages, dashboards, marketing sites
 - App screens, modals, wizards, forms
 - Component libraries with visible primitives
 - Any flow where a human will look at pixels and click things
 
-**Skip this skill** when the feature has no visual surface:
+This skill is a tool, not a gate. brainstorming offers it; the user decides. It pays off when the visual decisions are the hard part and prose is failing to pin them down. When the user is confident describing the UI in words, or the UI is trivial, the spec captures it in prose and this skill is skipped.
+
+**Skip this skill** when the user declines the offer, or when the feature has no visual surface:
 
 - CLI tools, daemons, cron jobs
 - Backend APIs consumed only by other code
@@ -53,7 +55,7 @@ Invoked by `devstack:brainstorming` when the feature has a **visible end-user su
 - Database migrations, schema changes
 - Infrastructure / CI / build tooling
 
-If you're unsure, ask the user one question: *"Will an end user look at pixels and click things? If yes, we'll prototype in HTML first."*
+If you're unsure whether there's a visual surface worth prototyping, ask the user one question: *"Will an end user look at pixels and click things? If yes, want a quick HTML prototype before we lock the spec?"*
 
 ## What "Hi-Fi" Means Here
 

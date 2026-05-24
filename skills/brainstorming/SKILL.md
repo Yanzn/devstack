@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: "You MUST use this before any creative work — creating features, building components, adding functionality, or modifying behavior. Refines a rough idea into an approved spec through socratic dialogue. For UI features, invokes prototyping-with-html to lock in a clickable HTML prototype as the visual contract before writing the spec. Saves the spec to docs/devstack/specs/ and hands off to writing-plans."
+description: "You MUST use this before any creative work — creating features, building components, adding functionality, or modifying behavior. Drives a rough idea to a confirmed requirement through socratic dialogue and adversarial grilling, then records it as an approved spec. When the requirement has a visible UI, optionally builds a clickable HTML prototype (user opts in) to pin the visual decisions. Saves the spec to docs/devstack/specs/, then hands off to /plan for complex work or straight to /work for simple work."
 ---
 
 <!--
@@ -11,34 +11,44 @@ sources:
   - agent-skills:spec-driven-development @ 1.0.0
 notes: |
   Kept SP's HARD-GATE, socratic questioning, visual-companion notion, per-section
-  approval loop, and terminal handoff to writing-plans.
-  Grafted AS's "Surface Assumptions" pattern as the opening move of the design phase.
-  Adopted AS's six-area spec template (Objective / Tech Stack / Commands / Project Structure /
-  Code Style / Testing Strategy / Boundaries / Success Criteria / Open Questions) as the
-  output format — replacing SP's looser "architecture, components, data flow" guidance with
-  AS's more concrete structure. Dropped AS idea-refine's Phase 1–3 taxonomy in favor of
-  SP's conversational flow, but kept AS's "Not Doing" list as a required output section.
+  approval loop. Grafted AS's "Surface Assumptions" pattern as the opening move of the
+  design phase. Adopted AS's spec template and "Not Doing" list as required output.
+  Dropped AS idea-refine's Phase 1–3 taxonomy in favor of SP's conversational flow.
 
-  v0.5: Inserted a UI Gate between "Propose approaches" and "Present spec section by section".
-  For features with a visible end-user surface, brainstorming now hands off to
-  devstack:prototyping-with-html, which produces a clickable hi-fi HTML prototype the user
-  approves in a real browser. The approved prototype becomes the spec's Visual Contract —
-  spec prose no longer re-describes the UI, it points to the prototype path.
+  v0.5: Inserted a UI Gate between "Propose approaches" and "Present spec section by
+  section". For features with a visible surface, brainstorming handed off to
+  devstack:prototyping-with-html for a clickable hi-fi prototype that became the spec's
+  Visual Contract.
+
+  v0.13: Reframed around requirement clarification as the job, with two interchangeable
+  clarification tools — adversarial grilling (verbal) and HTML prototyping (visual).
+  The UI prototype was demoted from a HARD pre-spec gate to an OPTIONAL, user-opted-in
+  clarification aid; when built, it stays the UI source of truth (spec references it, no
+  prose re-description). Grilling discipline (one question + recommended answer, boundary /
+  failure-mode / reversibility probing — borrowed from challenging-plans) moved into the
+  clarify step and scaled to complexity. Terminal state changed from "always writing-plans"
+  to a branch: /plan for complex work, straight to /work for simple work — decoupling plan
+  from work so simple tasks skip the task-graph ceremony.
 -->
 
 # Brainstorming Ideas Into Approved Specs
 
-Turn an idea into a written, approved specification through collaborative dialogue. The spec is the contract between you and your human partner — what you'll build, why, and how you'll know it's done.
+Brainstorming's job is to **clarify the requirement** until you and your human partner agree on exactly what to build and how you'll know it's done — then record that agreement as a written, approved spec. The spec is the contract.
 
-For features with a visible UI, an approved **clickable HTML prototype** is part of the contract: the spec references it instead of re-describing the UI in prose. See [UI Gate](#ui-gate).
+You have two tools for clarifying, used as the requirement demands:
+
+- **Grilling** (always) — socratic + adversarial questioning. Surface assumptions, probe boundaries and failure modes, push back on weak ideas. This is the main engine. Scale its intensity to the complexity of the request.
+- **HTML prototype** (optional, UI only) — when the requirement has a visible surface and words aren't pinning it down, offer to build a clickable hi-fi prototype the user opens in a browser. The user opts in. If built, the prototype becomes the UI source of truth and the spec references it instead of describing the UI in prose.
+
+Clarify first, write the spec second. Thinking the requirement through before implementing is the highest-leverage move available — a wrong line of code is cheap to fix, a wrong requirement is not.
 
 <HARD-GATE>
-Do NOT invoke any implementation skill, write any code, scaffold any project, or take any implementation action until you have presented a design and the user has approved it in writing. This applies to EVERY project regardless of perceived simplicity.
+Do NOT write any code, scaffold any project, or take any implementation action until you have clarified the requirement, presented a design, and the user has approved a written spec. This applies to EVERY project regardless of perceived simplicity.
 </HARD-GATE>
 
 ## Anti-Pattern: "This Is Too Simple To Need A Spec"
 
-Every project goes through this process. A todo list, a single-function utility, a config change — all of them. "Simple" projects are where unexamined assumptions cause the most wasted work. The spec can be short (a few sentences) for truly simple projects, but you MUST present it and get written approval.
+Every project goes through this process. A todo list, a single-function utility, a config change — all of them. "Simple" projects are where unexamined assumptions cause the most wasted work. The spec can be short (a few sentences) for truly simple projects, but you MUST present it and get written approval. Skipping the *plan* on a simple project is fine — it goes straight to `/work` (see [Implementation Handoff](#implementation-handoff)). Skipping the *spec* is not.
 
 ## Checklist
 
@@ -46,14 +56,14 @@ Create a TodoWrite task for each of these items and complete them in order:
 
 1. **Explore project context** — files, docs, recent commits, existing patterns
 2. **Surface assumptions** — list what you're assuming before asking anything
-3. **Ask clarifying questions** — one at a time, understand purpose / constraints / success criteria
+3. **Clarify the requirement (grill it)** — one question at a time, each with your recommended answer; probe boundaries, failure modes, reversibility; scale intensity to complexity
 4. **Propose 2–3 approaches** — with trade-offs and your recommendation
-5. **UI Gate** — does this feature have a visible end-user surface? If yes, invoke `devstack:prototyping-with-html` and wait for an approved prototype + Visual Contract note before continuing
-6. **Present design section by section** — get approval after each section (UI section = the Visual Contract from step 5; do not re-describe UI in prose)
+5. **Optional: prototype the visuals** — if the requirement has a visible UI, OFFER `devstack:prototyping-with-html`; if the user opts in, wait for an approved prototype + Visual Contract note
+6. **Present design section by section** — approval after each section (if a prototype was built, the UI section IS the Visual Contract — don't re-describe it in prose)
 7. **Write the spec document** — save to `docs/devstack/specs/YYYY-MM-DD-<topic>-spec.md` and commit
 8. **Spec self-review** — inline fix of placeholders, contradictions, ambiguity, scope drift
 9. **User reviews written spec** — wait for explicit approval
-10. **Hand off to writing-plans** — invoke `devstack:writing-plans` as the terminal state
+10. **Hand off** — branch: complex work → `devstack:writing-plans` (`/plan`); simple work → straight to execution (`/work`). Ask the user which.
 
 ## Process Flow
 
@@ -61,35 +71,45 @@ Create a TodoWrite task for each of these items and complete them in order:
 digraph brainstorming {
     "Explore project context" [shape=box];
     "Surface assumptions (list + ask to correct)" [shape=box];
-    "Ask clarifying questions\n(one at a time)" [shape=box];
+    "Clarify the requirement\n(grill — one question at a time)" [shape=box];
+    "Enough to design?" [shape=diamond];
     "Propose 2-3 approaches\nwith trade-offs" [shape=box];
-    "UI surface present?" [shape=diamond];
+    "Visible UI surface?" [shape=diamond];
+    "Offer HTML prototype" [shape=box];
+    "User opts in?" [shape=diamond];
     "Invoke prototyping-with-html\n(wait for approved prototype)" [shape=box];
-    "Present spec section by section\n(UI = Visual Contract)" [shape=box];
+    "Present spec section by section" [shape=box];
     "User approves each section?" [shape=diamond];
-    "Write spec doc to\ndocs/devstack/specs/" [shape=box];
-    "Spec self-review\n(fix inline)" [shape=box];
-    "User reviews spec?" [shape=diamond];
-    "Invoke devstack:writing-plans" [shape=doublecircle];
+    "Write spec doc + self-review" [shape=box];
+    "User approves spec?" [shape=diamond];
+    "Complex work?" [shape=diamond];
+    "Invoke writing-plans (/plan)" [shape=doublecircle];
+    "Hand off to /work (direct)" [shape=doublecircle];
 
     "Explore project context" -> "Surface assumptions (list + ask to correct)";
-    "Surface assumptions (list + ask to correct)" -> "Ask clarifying questions\n(one at a time)";
-    "Ask clarifying questions\n(one at a time)" -> "Propose 2-3 approaches\nwith trade-offs";
-    "Propose 2-3 approaches\nwith trade-offs" -> "UI surface present?";
-    "UI surface present?" -> "Invoke prototyping-with-html\n(wait for approved prototype)" [label="yes"];
-    "UI surface present?" -> "Present spec section by section\n(UI = Visual Contract)" [label="no"];
-    "Invoke prototyping-with-html\n(wait for approved prototype)" -> "Present spec section by section\n(UI = Visual Contract)";
-    "Present spec section by section\n(UI = Visual Contract)" -> "User approves each section?";
-    "User approves each section?" -> "Present spec section by section\n(UI = Visual Contract)" [label="no, revise"];
-    "User approves each section?" -> "Write spec doc to\ndocs/devstack/specs/" [label="yes"];
-    "Write spec doc to\ndocs/devstack/specs/" -> "Spec self-review\n(fix inline)";
-    "Spec self-review\n(fix inline)" -> "User reviews spec?";
-    "User reviews spec?" -> "Write spec doc to\ndocs/devstack/specs/" [label="changes requested"];
-    "User reviews spec?" -> "Invoke devstack:writing-plans" [label="approved"];
+    "Surface assumptions (list + ask to correct)" -> "Clarify the requirement\n(grill — one question at a time)";
+    "Clarify the requirement\n(grill — one question at a time)" -> "Enough to design?";
+    "Enough to design?" -> "Clarify the requirement\n(grill — one question at a time)" [label="no, keep grilling"];
+    "Enough to design?" -> "Propose 2-3 approaches\nwith trade-offs" [label="yes"];
+    "Propose 2-3 approaches\nwith trade-offs" -> "Visible UI surface?";
+    "Visible UI surface?" -> "Offer HTML prototype" [label="yes"];
+    "Visible UI surface?" -> "Present spec section by section" [label="no"];
+    "Offer HTML prototype" -> "User opts in?";
+    "User opts in?" -> "Invoke prototyping-with-html\n(wait for approved prototype)" [label="yes"];
+    "User opts in?" -> "Present spec section by section" [label="no"];
+    "Invoke prototyping-with-html\n(wait for approved prototype)" -> "Present spec section by section";
+    "Present spec section by section" -> "User approves each section?";
+    "User approves each section?" -> "Present spec section by section" [label="no, revise"];
+    "User approves each section?" -> "Write spec doc + self-review" [label="yes"];
+    "Write spec doc + self-review" -> "User approves spec?";
+    "User approves spec?" -> "Write spec doc + self-review" [label="changes requested"];
+    "User approves spec?" -> "Complex work?" [label="approved"];
+    "Complex work?" -> "Invoke writing-plans (/plan)" [label="yes"];
+    "Complex work?" -> "Hand off to /work (direct)" [label="no — simple"];
 }
 ```
 
-**The terminal state is invoking `devstack:writing-plans`.** Do NOT invoke any other implementation skill from here. writing-plans is the only next step.
+**The terminal state is a branch:** `devstack:writing-plans` for complex work, or straight to `/work` for simple work. Do NOT invoke any other implementation skill from here.
 
 ## The Process
 
@@ -114,34 +134,59 @@ This is the single most effective way to prevent downstream rework. Do not silen
 
 ### 3. Assess Scope Early
 
-If the request describes multiple independent subsystems ("build a platform with chat, file storage, billing, analytics"), **flag this immediately** — do not refine details of a project that needs decomposition. Help the user split into sub-projects; each sub-project gets its own spec → plan → implementation cycle.
+If the request describes multiple independent subsystems ("build a platform with chat, file storage, billing, analytics"), **flag this immediately** — do not refine details of a project that needs decomposition. Help the user split into sub-projects; each sub-project gets its own spec → (optional plan) → implementation cycle.
 
-### 4. Ask Clarifying Questions
+### 4. Clarify the Requirement — Grill It
 
-- **One question per message.** Don't overwhelm.
+This is the core of brainstorming. A clarified requirement is worth more than any amount of careful implementation of the wrong thing. Interrogate the idea until every branch is resolved out loud.
+
+Rules:
+
+- **One question per message.** Don't overwhelm. Don't batch — batched questions get batch hand-waving.
+- **For each question, give your recommended answer.** Make the user push back against a position, not against silence.
 - **Prefer multiple-choice.** Easier to answer than open-ended.
-- **Focus on:** purpose, constraints, success criteria, who the user is, what "done" looks like.
+- **Explore the codebase yourself when the answer lives there.** Use Agent `subagent_type=Explore` rather than making the user recite what's already in the repo.
+- **Grill the edges, not the happy path.** Probe boundaries, failure modes, the upgrade path, the rollback story, the second-order consequences.
+- **Surface contradictions immediately.** If a term conflicts with an existing `CONTEXT.md` entry or a prior ADR, say so the moment it appears.
+- **Don't be a yes-machine.** If the idea is weak, say so with kindness and specificity.
+
+Question types to rotate through:
+
+| Type | Example |
+|---|---|
+| Purpose | "Who is this for, and what do they do today instead?" |
+| Definitional | "When you say 'cancellation' — the user action, the internal state transition, or the refund event?" |
+| Boundary | "What happens at the seam between A and B when both write the same record?" |
+| Failure mode | "If this step fails halfway, what's the recovery? Idempotent on retry?" |
+| Cost | "Worst case, what does this cost — latency, dollars, on-call pages?" |
+| Reversibility | "Once shipped, what's the rollback story if this was the wrong call?" |
+| Scope | "Is this one change, or three you're hoping to ship as one?" |
+| Success | "How will you know it's working — what's the metric, the test, the check?" |
+
+**Scale intensity to complexity.** A one-line config change needs one or two questions; a new subsystem needs the full decision tree. Don't grind a trivial request through twenty questions — that over-coupling is exactly what this skill exists to avoid. But don't wave a complex one through with two, either.
+
+This grilling is the *forward* form — clarifying a requirement that has no artifact yet. The adversarial pass against an artifact that *already exists* (an approved spec, a written plan) is `devstack:challenging-plans` / `/grill`. Same discipline, different moment.
 
 ### 5. Propose 2–3 Approaches
 
 Lead with your recommendation and explain why. Give trade-offs honestly — don't rubber-stamp the first idea that came up.
 
-### 6. UI Gate
+### 6. Optional — Prototype the Visuals
 
-Before presenting the spec, decide: **does this feature have a visible end-user surface?**
+If the requirement has a **visible end-user surface** (pages, screens, modals, dashboards, app flows, visible component primitives) and words alone aren't pinning the look-and-feel down, **offer** a clickable HTML prototype:
 
-- **Yes** — pages, screens, modals, dashboards, marketing pages, app flows, component libraries with visible primitives, anything where a human looks at pixels and clicks things
-- **No** — CLIs, daemons, background jobs, internal APIs, libraries/SDKs without UI, schema migrations, infra/CI
+> "This has a real UI. Want me to build a quick clickable HTML prototype you can open in a browser before we lock the spec? Fastest way to catch a wrong layout. Or we describe it in the spec and skip the prototype — your call."
 
-If yes: hand off to `devstack:prototyping-with-html`. That skill produces a clickable hi-fi HTML prototype the user opens in a real browser, iterates on, and explicitly approves. It returns a **Visual Contract** note (prototype path + locked decisions). Resume here once the prototype is approved.
+- **User opts in** → hand off to `devstack:prototyping-with-html`. It produces a hi-fi prototype the user opens, iterates on, and explicitly approves, then returns a **Visual Contract** note (prototype path + locked decisions). The prototype becomes the UI source of truth: the spec references it, the spec does NOT re-describe the UI in prose.
+- **User declines, or no visible surface** (CLIs, daemons, APIs, libraries, migrations, infra) → skip. The spec describes the requirement (including any UI) in prose. No prototype.
 
-If no: skip prototyping. The spec is the only contract.
-
-**Why a prototype before the spec?** Words about UI rot fast. A spec sentence "the dashboard has a sidebar with collapsible sections" is consistent with five visually different products. A clickable HTML page is one product. Lock the visual decisions in pixels first, then capture only the non-visual contracts (data, API, edge cases, success criteria) in the spec.
+**Why offer a prototype at all?** Words about UI rot fast. "A sidebar with collapsible sections" is consistent with five visually different products; a clickable page is one product. When the visual decisions are the hard part, pixels clarify faster than prose. But it's a *tool*, not a *gate* — if the user is confident in the prose description, or the UI is trivial, skip it.
 
 ### 7. Present the Spec Section by Section
 
 Scale each section to its complexity. A few sentences for simple parts, up to 200–300 words for nuanced parts. Ask after each section: "Does this look right so far?"
+
+If a prototype was built (step 6), the UI section IS the Visual Contract note — point at the prototype, don't re-describe it.
 
 ### 8. Design for Isolation and Clarity
 
@@ -191,7 +236,9 @@ Framework, test locations, coverage expectations, which test levels for which co
 
 ## Visual Contract
 
-> Required for features with a visible UI surface. Omit (or write "N/A — non-UI feature") otherwise.
+> Include this section ONLY if you built a prototype in step 6. If the UI was clarified
+> in prose (no prototype), or there's no UI, omit this section and describe any UI under
+> Architecture instead.
 
 **Prototype:** `docs/devstack/prototypes/<topic>/index.html`
 **Approved:** <YYYY-MM-DD>
@@ -209,7 +256,7 @@ Framework, test locations, coverage expectations, which test levels for which co
 
 ## Architecture
 
-Non-visual components, data flow, error handling. Diagram if useful. Scale to complexity. For UI features, the visible surfaces live in the Visual Contract / prototype, not here — this section covers what the user can't see (data shape, validation, server interactions, state machines).
+Non-visual components, data flow, error handling. Diagram if useful. Scale to complexity. If a prototype was built, the visible surfaces live in the Visual Contract, not here. If the UI was clarified in prose, describe it here. Either way this section covers what the user can't see (data shape, validation, server interactions, state machines).
 
 ## Success Criteria
 
@@ -231,7 +278,7 @@ not "make it faster".
 ## Open Questions
 
 - [Question needing resolution before implementation]
-- [Question that can wait until plan phase]
+- [Question that can wait until plan/execution]
 ```
 
 **The "Not Doing" list is non-negotiable.** Focus is saying no to good ideas. Make the trade-offs explicit.
@@ -244,7 +291,7 @@ After writing the spec, look at it with fresh eyes:
 
 1. **Placeholder scan** — any "TBD", "TODO", incomplete sections, or vague requirements? Fix them.
 2. **Internal consistency** — do sections contradict each other? Does the architecture match the feature descriptions?
-3. **Scope check** — is this focused enough for a single implementation plan, or does it need decomposition?
+3. **Scope check** — is this focused enough for a single implementation pass, or does it need decomposition?
 4. **Ambiguity check** — could any requirement be interpreted two ways? Pick one and make it explicit.
 5. **Assumption audit** — any assumption from step 2 that didn't get confirmed? Flag it in Open Questions.
 
@@ -254,32 +301,54 @@ Fix issues inline. No need to re-review.
 
 After self-review, ask:
 
-> "Spec written and committed to `<path>`. Please review it and let me know if you want changes before we move to the implementation plan."
+> "Spec written and committed to `<path>`. Please review it and let me know if you want changes before we move to implementation."
 
 Wait. If the user requests changes, make them and re-run self-review. Only proceed once the user approves.
 
 ## Implementation Handoff
 
+After the user approves the spec, decide whether the work needs a task-by-task plan or can go straight to execution. **Ask the user, with your recommendation:**
+
+> "Spec approved. Two ways forward:
+>
+> **1. `/plan` first** — turn the spec into a task-by-task plan (exact files, complete code, verification per task). Worth it for complex / multi-file / multi-subsystem work, or when subagents will execute it.
+>
+> **2. Straight to `/work`** — implement the spec directly this session with TDD and incremental commits, no separate plan. Best for small, self-contained changes.
+>
+> I recommend **<N>** because <one-line reason>. Which do you want?"
+
+**Use a plan when** the work is large, spans many files, has dependency ordering that needs locking, will be parallelized, or will be executed by fresh subagents (each needs precise per-task text). Writing a full plan for a one-file change is doing the work twice.
+
+**Go straight to `/work` when** the change is small and self-contained and you'll implement it yourself in-session. The spec-only path runs `devstack:incremental-implementation` + `devstack:test-driven-development`, then a final code review and `devstack:finishing-a-development-branch` — no task-graph plan, and **no separate worktree required** (a feature branch in the current checkout is fine; just never land on `main` without consent). On the direct path you implement in this same session right after approval — don't make the user re-invoke anything.
+
 ```
 [User approves spec]
 
-You: I'm using devstack:writing-plans to create the implementation plan based on
-     the approved spec at <path>.
+If plan path:
+  You: Using devstack:writing-plans to create the implementation plan from the
+       approved spec at <path>.
+  [Invoke devstack:writing-plans]
 
-[Invoke devstack:writing-plans]
+If direct path:
+  You: Spec is small and self-contained — going straight to implementation.
+       Using devstack:incremental-implementation + devstack:test-driven-development
+       against the spec at <path>.
+  [Proceed with the lightweight /work path]
 ```
 
-Do NOT invoke any other skill. `writing-plans` is the next step.
+Do NOT invoke any skill other than `devstack:writing-plans` (plan path) or the lightweight execution skills (direct path). Either way, brainstorming's job ends at the approved spec.
 
 ## Key Principles
 
+- **Clarify before you build** — the requirement is the expensive thing to get wrong
 - **One question at a time** — don't overwhelm
+- **Recommend an answer per question** — make the user push against a position
 - **Multiple choice preferred** — easier to answer
 - **YAGNI ruthlessly** — remove unnecessary features from all designs
 - **Explore alternatives** — always 2–3 approaches before settling
 - **Incremental validation** — present, approve, move on
 - **Surface assumptions early** — cheaper than rework
-- **Be flexible** — go back and clarify when something doesn't make sense
+- **Plan is optional, spec is not** — match the ceremony to the work
 - **Don't be a yes-machine** — if the idea is weak, say so with kindness and specificity
 
 ## Red Flags
@@ -287,21 +356,22 @@ Do NOT invoke any other skill. `writing-plans` is the next step.
 - Starting to write code with no written spec
 - Skipping "Surface Assumptions" because "the request seems clear"
 - Batching multiple clarifying questions into one message
+- Grilling the happy path instead of the failure modes
+- Asking a clarifying question without your own recommended answer
+- Grinding a trivial request through a full decision tree (over-coupling — scale to complexity)
 - Writing a spec without a "Not Doing" list
 - Accepting vague success criteria like "make it faster"
 - Jumping to implementation after verbal approval — get written spec approval
-- Invoking any skill other than `writing-plans` as the terminal state
-- **For UI features:** writing the spec's UI section in prose before invoking `prototyping-with-html`
-- **For UI features:** describing screens/layouts in spec prose when an approved prototype exists — the prototype IS the description
+- Invoking an implementation skill other than the two handoff branches
+- **For UI features:** forcing a prototype when the user is happy describing the UI in prose, or skipping the *offer* when the visual decisions are clearly the hard part
+- **For UI features:** re-describing the UI in spec prose when an approved prototype exists — the prototype IS the description
 
 ## Visual Aids During Brainstorming
 
-For UI features, the heavy visual work happens in `prototyping-with-html` (step 6 — UI Gate). Before reaching that gate, you may still want quick visual aids during early clarifying questions — wireframe sketches, layout comparisons, architecture diagrams. Use whichever lightweight option fits:
+Even before the optional prototype gate (step 6), you may want quick visual aids during early clarifying questions — wireframe sketches, layout comparisons, architecture diagrams. Use whichever lightweight option fits:
 
 - An ASCII layout sketch in chat — great for "row vs. column?", "sidebar left or right?", before any HTML exists
 - A mermaid diagram for architecture / state-machine questions
-- A one-screen static HTML mockup if a single decision genuinely needs pixels before the full prototype
+- A one-screen static HTML mockup if a single decision genuinely needs pixels before any full prototype
 
-Keep these aids **disposable** and **focused on the current question**. The full prototype is built in the UI Gate, not piecemeal during clarifying questions.
-
-For non-UI features, ASCII / mermaid is usually all you need.
+Keep these aids **disposable** and **focused on the current question**. If the user opts into a full prototype, that's where the heavy visual work happens — not piecemeal during clarifying questions. For non-UI features, ASCII / mermaid is usually all you need.

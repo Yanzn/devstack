@@ -126,7 +126,7 @@ The grilling ends when one of:
 
 ## Cross-References
 
-- `devstack:brainstorming` — use **before** challenging-plans when no artifact exists yet.
+- `devstack:brainstorming` — use **before** challenging-plans when no artifact exists yet. Its clarify step does the *forward* form of this grilling (interrogating a requirement into existence); challenging-plans is the *adversarial* form against an artifact that already exists. Same discipline, different moment.
 - `devstack:domain-modeling` — owns the `CONTEXT.md` and `docs/adr/` formats this skill writes into.
 - `devstack:improving-architecture` — its step-3 grilling loop is the architecture-scoped specialization of this skill; use it when the artifact is a deepening candidate, not a general plan.
 - `devstack:writing-plans` — use **after** challenging-plans if the grill revealed the plan needs revision.
